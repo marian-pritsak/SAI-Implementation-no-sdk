@@ -1,0 +1,226 @@
+meta/saimetadatautils.lo: meta/saimetadatautils.c \
+ /usr/include/stdc-predef.h /usr/include/stdio.h /usr/include/features.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h /usr/include/string.h \
+ /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/string.h \
+ /usr/include/x86_64-linux-gnu/bits/string2.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap-16.h /usr/include/stdlib.h \
+ ../inc/sai/sai.h ../inc/sai/saitypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdbool.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/sigset.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h ../inc/sai/saistatus.h \
+ ../inc/sai/saiacl.h ../inc/sai/saitypes.h ../inc/sai/saibuffer.h \
+ ../inc/sai/saifdb.h ../inc/sai/saihash.h ../inc/sai/saihostif.h \
+ ../inc/sai/sailag.h ../inc/sai/saimirror.h ../inc/sai/saineighbor.h \
+ ../inc/sai/sainexthopgroup.h ../inc/sai/sainexthop.h \
+ ../inc/sai/saiobject.h ../inc/sai/saifdb.h ../inc/sai/saimcastfdb.h \
+ ../inc/sai/sail2mc.h ../inc/sai/saiipmc.h ../inc/sai/saineighbor.h \
+ ../inc/sai/sairoute.h ../inc/sai/saipolicer.h ../inc/sai/saiport.h \
+ ../inc/sai/saiqosmap.h ../inc/sai/saiqueue.h ../inc/sai/sairoute.h \
+ ../inc/sai/saivirtualrouter.h ../inc/sai/sairouterinterface.h \
+ ../inc/sai/saisamplepacket.h ../inc/sai/saischedulergroup.h \
+ ../inc/sai/saischeduler.h ../inc/sai/saistp.h ../inc/sai/saiswitch.h \
+ ../inc/sai/saiport.h ../inc/sai/saihostif.h ../inc/sai/saitunnel.h \
+ ../inc/sai/saiudf.h ../inc/sai/saivlan.h ../inc/sai/saiwred.h \
+ ../inc/sai/saibridge.h ../inc/sai/sail2mc.h ../inc/sai/saiipmc.h \
+ ../inc/sai/sairpfgroup.h ../inc/sai/sail2mcgroup.h \
+ ../inc/sai/saiipmcgroup.h ../inc/sai/saimcastfdb.h ../inc/sai/saibmtor.h \
+ meta/saimetadatautils.h meta/saimetadatatypes.h meta/saimetadata.h \
+ meta/saimetadatalogger.h
+
+/usr/include/stdc-predef.h:
+
+/usr/include/stdio.h:
+
+/usr/include/features.h:
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stddef.h:
+
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/string.h:
+
+/usr/include/xlocale.h:
+
+/usr/include/x86_64-linux-gnu/bits/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/string2.h:
+
+/usr/include/endian.h:
+
+/usr/include/x86_64-linux-gnu/bits/endian.h:
+
+/usr/include/x86_64-linux-gnu/bits/byteswap.h:
+
+/usr/include/x86_64-linux-gnu/bits/byteswap-16.h:
+
+/usr/include/stdlib.h:
+
+../inc/sai/sai.h:
+
+../inc/sai/saitypes.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdbool.h:
+
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/time.h:
+
+/usr/include/x86_64-linux-gnu/sys/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigset.h:
+
+/usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/include/x86_64-linux-gnu/sys/sysmacros.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+
+../inc/sai/saistatus.h:
+
+../inc/sai/saiacl.h:
+
+../inc/sai/saitypes.h:
+
+../inc/sai/saibuffer.h:
+
+../inc/sai/saifdb.h:
+
+../inc/sai/saihash.h:
+
+../inc/sai/saihostif.h:
+
+../inc/sai/sailag.h:
+
+../inc/sai/saimirror.h:
+
+../inc/sai/saineighbor.h:
+
+../inc/sai/sainexthopgroup.h:
+
+../inc/sai/sainexthop.h:
+
+../inc/sai/saiobject.h:
+
+../inc/sai/saifdb.h:
+
+../inc/sai/saimcastfdb.h:
+
+../inc/sai/sail2mc.h:
+
+../inc/sai/saiipmc.h:
+
+../inc/sai/saineighbor.h:
+
+../inc/sai/sairoute.h:
+
+../inc/sai/saipolicer.h:
+
+../inc/sai/saiport.h:
+
+../inc/sai/saiqosmap.h:
+
+../inc/sai/saiqueue.h:
+
+../inc/sai/sairoute.h:
+
+../inc/sai/saivirtualrouter.h:
+
+../inc/sai/sairouterinterface.h:
+
+../inc/sai/saisamplepacket.h:
+
+../inc/sai/saischedulergroup.h:
+
+../inc/sai/saischeduler.h:
+
+../inc/sai/saistp.h:
+
+../inc/sai/saiswitch.h:
+
+../inc/sai/saiport.h:
+
+../inc/sai/saihostif.h:
+
+../inc/sai/saitunnel.h:
+
+../inc/sai/saiudf.h:
+
+../inc/sai/saivlan.h:
+
+../inc/sai/saiwred.h:
+
+../inc/sai/saibridge.h:
+
+../inc/sai/sail2mc.h:
+
+../inc/sai/saiipmc.h:
+
+../inc/sai/sairpfgroup.h:
+
+../inc/sai/sail2mcgroup.h:
+
+../inc/sai/saiipmcgroup.h:
+
+../inc/sai/saimcastfdb.h:
+
+../inc/sai/saibmtor.h:
+
+meta/saimetadatautils.h:
+
+meta/saimetadatatypes.h:
+
+meta/saimetadata.h:
+
+meta/saimetadatalogger.h:

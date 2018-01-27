@@ -1,0 +1,764 @@
+dbgdump/mlnx_sai_dbg_acl.lo: dbgdump/mlnx_sai_dbg_acl.c \
+ /usr/include/stdc-predef.h ../inc/mlnx_sai.h \
+ /usr/include/sx/sdk/sx_api.h /usr/include/sx/sxd/kernel_user.h \
+ /usr/include/x86_64-linux-gnu/sys/uio.h /usr/include/features.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/time.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stddef.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/sigset.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/uio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/xlocale.h \
+ /usr/include/sx/sdk/sx_types.h /usr/include/sx/sdk/sx_access_cmd.h \
+ /usr/include/sx/sdk/sx_check.h /usr/include/sx/sdk/sx_acl.h \
+ /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+ /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/sx/sdk/sx_port.h /usr/include/complib/cl_packon.h \
+ /usr/include/complib/cl_qpool.h /usr/include/complib/cl_qcomppool.h \
+ /usr/include/complib/cl_types.h /usr/include/complib/cl_types_osd.h \
+ /usr/include/inttypes.h /usr/include/assert.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/string.h \
+ /usr/include/x86_64-linux-gnu/bits/string2.h \
+ /usr/include/complib/sx_log.h /usr/include/syslog.h \
+ /usr/include/x86_64-linux-gnu/sys/syslog.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/syslog-path.h /usr/include/stdio.h \
+ /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h /usr/include/execinfo.h \
+ /usr/include/complib/cl_qlist.h /usr/include/complib/cl_qmap.h \
+ /usr/include/complib/cl_passivelock.h /usr/include/pthread.h \
+ /usr/include/sched.h /usr/include/x86_64-linux-gnu/bits/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ /usr/include/sx/sdk/sx_policer.h /usr/include/sx/sxd/sxd_policer.h \
+ /usr/include/sx/sxd/sxd_check.h /usr/include/sx/sdk/sx_swid.h \
+ /usr/include/sx/sxd/sxd_swid.h /usr/include/sx/sdk/sx_cos.h \
+ /usr/include/sx/sxd/sxd_cos.h \
+ /usr/include/resource_manager/resource_manager.h \
+ /usr/include/sx/sdk/sx_dev.h /usr/include/sx/sdk/sx_status.h \
+ /usr/include/sx/sxd/sxd_status.h /usr/include/sx/sdk/sx_fdb.h \
+ /usr/include/sx/sxd/sxd_fdb.h /usr/include/sx/sxd/sxd_emad_fdb_data.h \
+ /usr/include/sx/sxd/sxd_types.h /usr/include/sx/sxd/sxd_access_cmd.h \
+ /usr/include/sx/sxd/sxd_bitmap.h /usr/include/sx/sxd/sxd_dev.h \
+ /usr/include/sx/sxd/sxd_host.h /usr/include/sx/sxd/sxd_lag.h \
+ /usr/include/sx/sxd/sxd_mac.h /usr/include/net/ethernet.h \
+ /usr/include/linux/if_ether.h /usr/include/linux/types.h \
+ /usr/include/x86_64-linux-gnu/asm/types.h \
+ /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h /usr/include/sx/sxd/sxd_port.h \
+ /usr/include/sx/sxd/sxd_router.h /usr/include/sx/sxd/sxd_emad_status.h \
+ /usr/include/sx/sxd/sxd_trap_id.h /usr/include/sx/sxd/sxd_vlan.h \
+ /usr/include/sx/sxd/sxd_span.h \
+ /usr/include/sx/sxd/sxd_emad_common_data.h /usr/include/sx/sdk/sx_mac.h \
+ /usr/include/sx/sdk/sx_mc.h /usr/include/sx/sdk/sx_vlan.h \
+ /usr/include/sx/sdk/sx_port_id.h /usr/include/sx/sdk/sx_trap_id.h \
+ /usr/include/sx/sdk/obsolete.h /usr/include/sx/sdk/sx_next_hop.h \
+ /usr/include/sx/sdk/sx_tunnel_id.h \
+ /usr/include/sx/sdk/sx_mc_container_id.h \
+ /usr/include/sx/sdk/sx_flow_counter.h /usr/include/sx/sdk/sx_ip.h \
+ /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h \
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
+ /usr/include/x86_64-linux-gnu/asm/socket.h \
+ /usr/include/asm-generic/socket.h \
+ /usr/include/x86_64-linux-gnu/asm/sockios.h \
+ /usr/include/asm-generic/sockios.h \
+ /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/arpa/inet.h \
+ /usr/include/sx/sdk/sx_router_next_hop_base.h \
+ /usr/include/sx/sdk/sx_mpls_next_hop.h /usr/include/sx/sdk/sx_mpls.h \
+ /usr/include/sx/sxd/sxdev.h /usr/include/sx/sdk/sx_fcf.h \
+ /usr/include/sx/sdk/sx_span.h /usr/include/sx/sxd/sxd_emad_span.h \
+ /usr/include/sx/sxd/sxd_emad_span_data.h /usr/include/sx/sdk/sx_bridge.h \
+ /usr/include/sx/sdk/sx_router.h /usr/include/sx/sdk/sx_init.h \
+ /usr/include/sx/sdk/sx_mpls_ilm.h /usr/include/sx/sdk/sx_event.h \
+ /usr/include/sx/sdk/sx_event_id.h /usr/include/sx/sdk/sx_tele.h \
+ /usr/include/sx/sdk/sx_host.h /usr/include/sx/sdk/sx_lag.h \
+ /usr/include/sx/sdk/sx_mstp.h /usr/include/sx/sxd/sxd_emad_mstp.h \
+ /usr/include/sx/sxd/sxd_emad_mstp_data.h /usr/include/sx/sdk/sx_tunnel.h \
+ /usr/include/sx/sdk/sx_topo.h /usr/include/sx/sdk/sx_rm.h \
+ /usr/include/sx/sdk/sx_cos_redecn.h \
+ /usr/include/sx/sdk/sx_mc_container.h /usr/include/sx/sdk/sx_api_acl.h \
+ /usr/include/sx/sdk/sx_api_bridge.h /usr/include/sx/sdk/sx_api_cos.h \
+ /usr/include/sx/sdk/sx_api_cos_redecn.h /usr/include/sx/sdk/sx_api_dbg.h \
+ /usr/include/sx/sdk/sx_api_fdb.h /usr/include/sx/sdk/sx_api_flex_acl.h \
+ /usr/include/sx/sdk/sx_api_flow_counter.h \
+ /usr/include/sx/sdk/sx_api_host_ifc.h /usr/include/sx/sdk/sx_api_init.h \
+ /usr/include/sx/sdk/sx_api_lag.h \
+ /usr/include/sx/sdk/sx_api_mc_container.h \
+ /usr/include/sx/sdk/sx_api_mstp.h /usr/include/sx/sdk/sx_api_policer.h \
+ /usr/include/sx/sdk/sx_api_port.h /usr/include/sx/sdk/sx_api_router.h \
+ /usr/include/sx/sdk/sx_api_span.h /usr/include/sx/sdk/sx_api_topo.h \
+ /usr/include/sx/sdk/sx_api_tunnel.h /usr/include/sx/sdk/sx_api_vlan.h \
+ /usr/include/sx/sdk/sx_lib_flex_acl.h /usr/include/sx/sdk/sx_flex_acl.h \
+ /usr/include/sx/sdk/sx_lib_host_ifc.h \
+ /usr/include/sx/sxd/sxd_access_register.h /usr/include/sx/sxd/sxd_emad.h \
+ /usr/include/sx/sxd/sxd_emad_data.h \
+ /usr/include/sx/sxd/sxd_emad_cos_data.h \
+ /usr/include/sx/sxd/sxd_emad_acl_data.h \
+ /usr/include/sx/sxd/sxd_emad_fcf_data.h \
+ /usr/include/sx/sxd/sxd_emad_flow_counter_data.h \
+ /usr/include/sx/sxd/sxd_emad_host_data.h \
+ /usr/include/sx/sxd/sxd_emad_lag_data.h \
+ /usr/include/sx/sxd/sxd_emad_policer_data.h \
+ /usr/include/sx/sxd/sxd_emad_port_data.h \
+ /usr/include/sx/sxd/sxd_emad_mpls_data.h \
+ /usr/include/sx/sxd/sxd_emad_router_data.h \
+ /usr/include/sx/sxd/sxd_emad_shspm_data.h \
+ /usr/include/sx/sxd/sxd_emad_system_data.h \
+ /usr/include/sx/sxd/sxd_emad_vlan_data.h \
+ /usr/include/sx/sxd/sxd_emad_redecn_data.h \
+ /usr/include/sx/sxd/sxd_emad_tunnel_data.h \
+ /usr/include/sx/sxd/sxd_emad_rm_data.h \
+ /usr/include/sx/sxd/sxd_emad_acl.h /usr/include/sx/sxd/sxd_emad_cos.h \
+ /usr/include/sx/sxd/sxd_emad_fcf.h /usr/include/sx/sxd/sxd_emad_fdb.h \
+ /usr/include/sx/sxd/sxd_emad_flow_counter.h \
+ /usr/include/sx/sxd/sxd_emad_host.h /usr/include/sx/sxd/sxd_emad_lag.h \
+ /usr/include/sx/sxd/sxd_emad_policer.h \
+ /usr/include/sx/sxd/sxd_emad_port.h /usr/include/sx/sxd/sxd_emad_mpls.h \
+ /usr/include/sx/sxd/sxd_emad_redecn.h \
+ /usr/include/sx/sxd/sxd_emad_router.h \
+ /usr/include/sx/sxd/sxd_emad_shspm.h \
+ /usr/include/sx/sxd/sxd_emad_system.h \
+ /usr/include/sx/sxd/sxd_emad_vlan.h \
+ /usr/include/sx/sxd/sxd_emad_tunnel.h /usr/include/sx/sxd/sxd_emad_rm.h \
+ /usr/include/sx/sxd/sxd_command_ifc.h /usr/include/complib/cl_spinlock.h \
+ /usr/include/complib/cl_spinlock_osd.h \
+ /usr/include/sx/sxd/sxd_access_register_init.h \
+ /usr/include/sx/sxd/sxd_dpt.h /usr/include/complib/cl_shared_memory.h \
+ /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
+ /usr/include/x86_64-linux-gnu/sys/mman.h \
+ /usr/include/x86_64-linux-gnu/bits/mman.h \
+ /usr/include/x86_64-linux-gnu/bits/mman-linux.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/complib/cl_event.h /usr/include/complib/cl_event_osd.h \
+ /usr/include/sx/utils/psort.h /usr/include/sx/utils/sx_utils_status.h \
+ /usr/include/sx/utils/sx_utils_types.h \
+ /usr/include/x86_64-linux-gnu/sys/time.h ../inc/sai/sai.h \
+ ../inc/sai/saitypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdbool.h \
+ ../inc/sai/saistatus.h ../inc/sai/saiacl.h ../inc/sai/saitypes.h \
+ ../inc/sai/saibuffer.h ../inc/sai/saifdb.h ../inc/sai/saihash.h \
+ ../inc/sai/saihostif.h ../inc/sai/sailag.h ../inc/sai/saimirror.h \
+ ../inc/sai/saineighbor.h ../inc/sai/sainexthopgroup.h \
+ ../inc/sai/sainexthop.h ../inc/sai/saiobject.h ../inc/sai/saifdb.h \
+ ../inc/sai/saimcastfdb.h ../inc/sai/sail2mc.h ../inc/sai/saiipmc.h \
+ ../inc/sai/saineighbor.h ../inc/sai/sairoute.h ../inc/sai/saipolicer.h \
+ ../inc/sai/saiport.h ../inc/sai/saiqosmap.h ../inc/sai/saiqueue.h \
+ ../inc/sai/sairoute.h ../inc/sai/saivirtualrouter.h \
+ ../inc/sai/sairouterinterface.h ../inc/sai/saisamplepacket.h \
+ ../inc/sai/saischedulergroup.h ../inc/sai/saischeduler.h \
+ ../inc/sai/saistp.h ../inc/sai/saiswitch.h ../inc/sai/saiport.h \
+ ../inc/sai/saihostif.h ../inc/sai/saitunnel.h ../inc/sai/saiudf.h \
+ ../inc/sai/saivlan.h ../inc/sai/saiwred.h ../inc/sai/saibridge.h \
+ ../inc/sai/sail2mc.h ../inc/sai/saiipmc.h ../inc/sai/sairpfgroup.h \
+ ../inc/sai/sail2mcgroup.h ../inc/sai/saiipmcgroup.h \
+ ../inc/sai/saimcastfdb.h ../inc/sai/saibmtor.h \
+ /usr/include/sx/utils/dbg_utils.h
+
+/usr/include/stdc-predef.h:
+
+../inc/mlnx_sai.h:
+
+/usr/include/sx/sdk/sx_api.h:
+
+/usr/include/sx/sxd/kernel_user.h:
+
+/usr/include/x86_64-linux-gnu/sys/uio.h:
+
+/usr/include/features.h:
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/time.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stddef.h:
+
+/usr/include/endian.h:
+
+/usr/include/x86_64-linux-gnu/bits/endian.h:
+
+/usr/include/x86_64-linux-gnu/bits/byteswap.h:
+
+/usr/include/x86_64-linux-gnu/bits/byteswap-16.h:
+
+/usr/include/x86_64-linux-gnu/sys/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigset.h:
+
+/usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/include/x86_64-linux-gnu/sys/sysmacros.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+
+/usr/include/x86_64-linux-gnu/bits/uio.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/xlocale.h:
+
+/usr/include/sx/sdk/sx_types.h:
+
+/usr/include/sx/sdk/sx_access_cmd.h:
+
+/usr/include/sx/sdk/sx_check.h:
+
+/usr/include/sx/sdk/sx_acl.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+
+/usr/include/alloca.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/sx/sdk/sx_port.h:
+
+/usr/include/complib/cl_packon.h:
+
+/usr/include/complib/cl_qpool.h:
+
+/usr/include/complib/cl_qcomppool.h:
+
+/usr/include/complib/cl_types.h:
+
+/usr/include/complib/cl_types_osd.h:
+
+/usr/include/inttypes.h:
+
+/usr/include/assert.h:
+
+/usr/include/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/string2.h:
+
+/usr/include/complib/sx_log.h:
+
+/usr/include/syslog.h:
+
+/usr/include/x86_64-linux-gnu/sys/syslog.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/syslog-path.h:
+
+/usr/include/stdio.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/execinfo.h:
+
+/usr/include/complib/cl_qlist.h:
+
+/usr/include/complib/cl_qmap.h:
+
+/usr/include/complib/cl_passivelock.h:
+
+/usr/include/pthread.h:
+
+/usr/include/sched.h:
+
+/usr/include/x86_64-linux-gnu/bits/sched.h:
+
+/usr/include/x86_64-linux-gnu/bits/setjmp.h:
+
+/usr/include/sx/sdk/sx_policer.h:
+
+/usr/include/sx/sxd/sxd_policer.h:
+
+/usr/include/sx/sxd/sxd_check.h:
+
+/usr/include/sx/sdk/sx_swid.h:
+
+/usr/include/sx/sxd/sxd_swid.h:
+
+/usr/include/sx/sdk/sx_cos.h:
+
+/usr/include/sx/sxd/sxd_cos.h:
+
+/usr/include/resource_manager/resource_manager.h:
+
+/usr/include/sx/sdk/sx_dev.h:
+
+/usr/include/sx/sdk/sx_status.h:
+
+/usr/include/sx/sxd/sxd_status.h:
+
+/usr/include/sx/sdk/sx_fdb.h:
+
+/usr/include/sx/sxd/sxd_fdb.h:
+
+/usr/include/sx/sxd/sxd_emad_fdb_data.h:
+
+/usr/include/sx/sxd/sxd_types.h:
+
+/usr/include/sx/sxd/sxd_access_cmd.h:
+
+/usr/include/sx/sxd/sxd_bitmap.h:
+
+/usr/include/sx/sxd/sxd_dev.h:
+
+/usr/include/sx/sxd/sxd_host.h:
+
+/usr/include/sx/sxd/sxd_lag.h:
+
+/usr/include/sx/sxd/sxd_mac.h:
+
+/usr/include/net/ethernet.h:
+
+/usr/include/linux/if_ether.h:
+
+/usr/include/linux/types.h:
+
+/usr/include/x86_64-linux-gnu/asm/types.h:
+
+/usr/include/asm-generic/types.h:
+
+/usr/include/asm-generic/int-ll64.h:
+
+/usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/linux/posix_types.h:
+
+/usr/include/linux/stddef.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
+
+/usr/include/asm-generic/posix_types.h:
+
+/usr/include/sx/sxd/sxd_port.h:
+
+/usr/include/sx/sxd/sxd_router.h:
+
+/usr/include/sx/sxd/sxd_emad_status.h:
+
+/usr/include/sx/sxd/sxd_trap_id.h:
+
+/usr/include/sx/sxd/sxd_vlan.h:
+
+/usr/include/sx/sxd/sxd_span.h:
+
+/usr/include/sx/sxd/sxd_emad_common_data.h:
+
+/usr/include/sx/sdk/sx_mac.h:
+
+/usr/include/sx/sdk/sx_mc.h:
+
+/usr/include/sx/sdk/sx_vlan.h:
+
+/usr/include/sx/sdk/sx_port_id.h:
+
+/usr/include/sx/sdk/sx_trap_id.h:
+
+/usr/include/sx/sdk/obsolete.h:
+
+/usr/include/sx/sdk/sx_next_hop.h:
+
+/usr/include/sx/sdk/sx_tunnel_id.h:
+
+/usr/include/sx/sdk/sx_mc_container_id.h:
+
+/usr/include/sx/sdk/sx_flow_counter.h:
+
+/usr/include/sx/sdk/sx_ip.h:
+
+/usr/include/netinet/in.h:
+
+/usr/include/x86_64-linux-gnu/sys/socket.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket_type.h:
+
+/usr/include/x86_64-linux-gnu/bits/sockaddr.h:
+
+/usr/include/x86_64-linux-gnu/asm/socket.h:
+
+/usr/include/asm-generic/socket.h:
+
+/usr/include/x86_64-linux-gnu/asm/sockios.h:
+
+/usr/include/asm-generic/sockios.h:
+
+/usr/include/x86_64-linux-gnu/bits/in.h:
+
+/usr/include/arpa/inet.h:
+
+/usr/include/sx/sdk/sx_router_next_hop_base.h:
+
+/usr/include/sx/sdk/sx_mpls_next_hop.h:
+
+/usr/include/sx/sdk/sx_mpls.h:
+
+/usr/include/sx/sxd/sxdev.h:
+
+/usr/include/sx/sdk/sx_fcf.h:
+
+/usr/include/sx/sdk/sx_span.h:
+
+/usr/include/sx/sxd/sxd_emad_span.h:
+
+/usr/include/sx/sxd/sxd_emad_span_data.h:
+
+/usr/include/sx/sdk/sx_bridge.h:
+
+/usr/include/sx/sdk/sx_router.h:
+
+/usr/include/sx/sdk/sx_init.h:
+
+/usr/include/sx/sdk/sx_mpls_ilm.h:
+
+/usr/include/sx/sdk/sx_event.h:
+
+/usr/include/sx/sdk/sx_event_id.h:
+
+/usr/include/sx/sdk/sx_tele.h:
+
+/usr/include/sx/sdk/sx_host.h:
+
+/usr/include/sx/sdk/sx_lag.h:
+
+/usr/include/sx/sdk/sx_mstp.h:
+
+/usr/include/sx/sxd/sxd_emad_mstp.h:
+
+/usr/include/sx/sxd/sxd_emad_mstp_data.h:
+
+/usr/include/sx/sdk/sx_tunnel.h:
+
+/usr/include/sx/sdk/sx_topo.h:
+
+/usr/include/sx/sdk/sx_rm.h:
+
+/usr/include/sx/sdk/sx_cos_redecn.h:
+
+/usr/include/sx/sdk/sx_mc_container.h:
+
+/usr/include/sx/sdk/sx_api_acl.h:
+
+/usr/include/sx/sdk/sx_api_bridge.h:
+
+/usr/include/sx/sdk/sx_api_cos.h:
+
+/usr/include/sx/sdk/sx_api_cos_redecn.h:
+
+/usr/include/sx/sdk/sx_api_dbg.h:
+
+/usr/include/sx/sdk/sx_api_fdb.h:
+
+/usr/include/sx/sdk/sx_api_flex_acl.h:
+
+/usr/include/sx/sdk/sx_api_flow_counter.h:
+
+/usr/include/sx/sdk/sx_api_host_ifc.h:
+
+/usr/include/sx/sdk/sx_api_init.h:
+
+/usr/include/sx/sdk/sx_api_lag.h:
+
+/usr/include/sx/sdk/sx_api_mc_container.h:
+
+/usr/include/sx/sdk/sx_api_mstp.h:
+
+/usr/include/sx/sdk/sx_api_policer.h:
+
+/usr/include/sx/sdk/sx_api_port.h:
+
+/usr/include/sx/sdk/sx_api_router.h:
+
+/usr/include/sx/sdk/sx_api_span.h:
+
+/usr/include/sx/sdk/sx_api_topo.h:
+
+/usr/include/sx/sdk/sx_api_tunnel.h:
+
+/usr/include/sx/sdk/sx_api_vlan.h:
+
+/usr/include/sx/sdk/sx_lib_flex_acl.h:
+
+/usr/include/sx/sdk/sx_flex_acl.h:
+
+/usr/include/sx/sdk/sx_lib_host_ifc.h:
+
+/usr/include/sx/sxd/sxd_access_register.h:
+
+/usr/include/sx/sxd/sxd_emad.h:
+
+/usr/include/sx/sxd/sxd_emad_data.h:
+
+/usr/include/sx/sxd/sxd_emad_cos_data.h:
+
+/usr/include/sx/sxd/sxd_emad_acl_data.h:
+
+/usr/include/sx/sxd/sxd_emad_fcf_data.h:
+
+/usr/include/sx/sxd/sxd_emad_flow_counter_data.h:
+
+/usr/include/sx/sxd/sxd_emad_host_data.h:
+
+/usr/include/sx/sxd/sxd_emad_lag_data.h:
+
+/usr/include/sx/sxd/sxd_emad_policer_data.h:
+
+/usr/include/sx/sxd/sxd_emad_port_data.h:
+
+/usr/include/sx/sxd/sxd_emad_mpls_data.h:
+
+/usr/include/sx/sxd/sxd_emad_router_data.h:
+
+/usr/include/sx/sxd/sxd_emad_shspm_data.h:
+
+/usr/include/sx/sxd/sxd_emad_system_data.h:
+
+/usr/include/sx/sxd/sxd_emad_vlan_data.h:
+
+/usr/include/sx/sxd/sxd_emad_redecn_data.h:
+
+/usr/include/sx/sxd/sxd_emad_tunnel_data.h:
+
+/usr/include/sx/sxd/sxd_emad_rm_data.h:
+
+/usr/include/sx/sxd/sxd_emad_acl.h:
+
+/usr/include/sx/sxd/sxd_emad_cos.h:
+
+/usr/include/sx/sxd/sxd_emad_fcf.h:
+
+/usr/include/sx/sxd/sxd_emad_fdb.h:
+
+/usr/include/sx/sxd/sxd_emad_flow_counter.h:
+
+/usr/include/sx/sxd/sxd_emad_host.h:
+
+/usr/include/sx/sxd/sxd_emad_lag.h:
+
+/usr/include/sx/sxd/sxd_emad_policer.h:
+
+/usr/include/sx/sxd/sxd_emad_port.h:
+
+/usr/include/sx/sxd/sxd_emad_mpls.h:
+
+/usr/include/sx/sxd/sxd_emad_redecn.h:
+
+/usr/include/sx/sxd/sxd_emad_router.h:
+
+/usr/include/sx/sxd/sxd_emad_shspm.h:
+
+/usr/include/sx/sxd/sxd_emad_system.h:
+
+/usr/include/sx/sxd/sxd_emad_vlan.h:
+
+/usr/include/sx/sxd/sxd_emad_tunnel.h:
+
+/usr/include/sx/sxd/sxd_emad_rm.h:
+
+/usr/include/sx/sxd/sxd_command_ifc.h:
+
+/usr/include/complib/cl_spinlock.h:
+
+/usr/include/complib/cl_spinlock_osd.h:
+
+/usr/include/sx/sxd/sxd_access_register_init.h:
+
+/usr/include/sx/sxd/sxd_dpt.h:
+
+/usr/include/complib/cl_shared_memory.h:
+
+/usr/include/unistd.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/getopt.h:
+
+/usr/include/x86_64-linux-gnu/sys/mman.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman-linux.h:
+
+/usr/include/fcntl.h:
+
+/usr/include/x86_64-linux-gnu/bits/fcntl.h:
+
+/usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
+
+/usr/include/x86_64-linux-gnu/bits/stat.h:
+
+/usr/include/complib/cl_event.h:
+
+/usr/include/complib/cl_event_osd.h:
+
+/usr/include/sx/utils/psort.h:
+
+/usr/include/sx/utils/sx_utils_status.h:
+
+/usr/include/sx/utils/sx_utils_types.h:
+
+/usr/include/x86_64-linux-gnu/sys/time.h:
+
+../inc/sai/sai.h:
+
+../inc/sai/saitypes.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdbool.h:
+
+../inc/sai/saistatus.h:
+
+../inc/sai/saiacl.h:
+
+../inc/sai/saitypes.h:
+
+../inc/sai/saibuffer.h:
+
+../inc/sai/saifdb.h:
+
+../inc/sai/saihash.h:
+
+../inc/sai/saihostif.h:
+
+../inc/sai/sailag.h:
+
+../inc/sai/saimirror.h:
+
+../inc/sai/saineighbor.h:
+
+../inc/sai/sainexthopgroup.h:
+
+../inc/sai/sainexthop.h:
+
+../inc/sai/saiobject.h:
+
+../inc/sai/saifdb.h:
+
+../inc/sai/saimcastfdb.h:
+
+../inc/sai/sail2mc.h:
+
+../inc/sai/saiipmc.h:
+
+../inc/sai/saineighbor.h:
+
+../inc/sai/sairoute.h:
+
+../inc/sai/saipolicer.h:
+
+../inc/sai/saiport.h:
+
+../inc/sai/saiqosmap.h:
+
+../inc/sai/saiqueue.h:
+
+../inc/sai/sairoute.h:
+
+../inc/sai/saivirtualrouter.h:
+
+../inc/sai/sairouterinterface.h:
+
+../inc/sai/saisamplepacket.h:
+
+../inc/sai/saischedulergroup.h:
+
+../inc/sai/saischeduler.h:
+
+../inc/sai/saistp.h:
+
+../inc/sai/saiswitch.h:
+
+../inc/sai/saiport.h:
+
+../inc/sai/saihostif.h:
+
+../inc/sai/saitunnel.h:
+
+../inc/sai/saiudf.h:
+
+../inc/sai/saivlan.h:
+
+../inc/sai/saiwred.h:
+
+../inc/sai/saibridge.h:
+
+../inc/sai/sail2mc.h:
+
+../inc/sai/saiipmc.h:
+
+../inc/sai/sairpfgroup.h:
+
+../inc/sai/sail2mcgroup.h:
+
+../inc/sai/saiipmcgroup.h:
+
+../inc/sai/saimcastfdb.h:
+
+../inc/sai/saibmtor.h:
+
+/usr/include/sx/utils/dbg_utils.h:
