@@ -112,7 +112,7 @@ typedef enum _sai_api_t
     SAI_API_IPMC_GROUP       = 31, /**< sai_ipmc_group_api_t */
     SAI_API_MCAST_FDB        = 32, /**< sai_mcast_fdb_api_t */
     SAI_API_BRIDGE           = 33, /**< sai_bridge_api_t */
-    SAI_API_BMTOR            = 34,
+    SAI_API_BMTOR       = 34,
     SAI_API_MAX              = 35, /**< total number of apis */
 } sai_api_t;
 
@@ -250,20 +250,6 @@ sai_object_id_t sai_switch_id_query(
  */
 sai_status_t sai_dbg_generate_dump(
         _In_ const char *dump_file_name);
-
-/**
- * @brief Create extension pipelines
- *
- * @return #SAI_STATUS_SUCCESS on success Failure status code on error
- */
-sai_status_t sai_extension_api_initialize();
-
-/**
- * @brief Destroy extension pipelines
- *
- * @return #SAI_STATUS_SUCCESS on success Failure status code on error
- */
-sai_status_t sai_extension_api_uninitialize();
 
 /**
  * @}

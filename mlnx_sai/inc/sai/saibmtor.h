@@ -9,16 +9,20 @@
 
 #include <saitypes.h>
 
-    /**
+sai_status_t sai_ext_api_initialize();
+sai_status_t sai_ext_api_uninitialize();
+
+/**
  * @defgroup SAIBMTOR SAI - Extension specific API definitions
  *
  * @{
  */
 
-    /**
+/**
  * @brief Attribute data for #SAI_TABLE_PEERING_ENTRY_ATTR_ACTION
  */
-typedef enum _sai_table_peering_entry_action_t {
+typedef enum _sai_table_peering_entry_action_t
+{
     SAI_TABLE_PEERING_ENTRY_ACTION_SET_VNET_BITMAP,
 
     SAI_TABLE_PEERING_ENTRY_ACTION_NOACTION,
@@ -31,6 +35,10 @@ typedef enum _sai_table_peering_entry_action_t {
 typedef enum _sai_table_vhost_entry_action_t
 {
     SAI_TABLE_VHOST_ENTRY_ACTION_TO_TUNNEL,
+
+    SAI_TABLE_VHOST_ENTRY_ACTION_TO_ROUTER,
+
+    SAI_TABLE_VHOST_ENTRY_ACTION_TO_PORT,
 
     SAI_TABLE_VHOST_ENTRY_ACTION_NOACTION,
 
@@ -156,6 +164,16 @@ typedef enum _sai_table_vhost_entry_attr_t
      * @condition SAI_TABLE_VHOST_ENTRY_ATTR_ACTION == SAI_TABLE_VHOST_ENTRY_ACTION_TO_TUNNEL
      */
     SAI_TABLE_VHOST_ENTRY_ATTR_UNDERLAY_DIP,
+
+    /**
+     * @brief Action to_port parameter port_id
+     *
+     * @type sai_object_id_t
+     * @flags MANDATORY_ON_CREATE | CREATE_ONLY
+     * @objects SAI_OBJECT_TYPE_PORT
+     * @condition SAI_TABLE_VHOST_ENTRY_ATTR_ACTION == SAI_TABLE_VHOST_ENTRY_ACTION_TO_PORT
+     */
+    SAI_TABLE_VHOST_ENTRY_ATTR_PORT_ID,
 
     /**
      * @brief End of attributes

@@ -163,25 +163,26 @@ sai_status_t mlnx_create_table_vhost_entry(
     uint32_t overlay_dip;
     uint32_t underlay_dip;
     uint16_t vhost_offset;
+    uint32_t port_pbs_id;
     flextrum_action_id_t vhost_action_id;
     sx_tunnel_id_t tunnel_id;
     uint32_t tunnel_idx;
     sai_status_t sai_status;
     uint32_t attr_idx;
+    sx_port_log_id_t sx_log_port_id;
     const sai_attribute_value_t *attr;
 
     if (SAI_STATUS_SUCCESS ==
         (sai_status =
              find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_ACTION, &attr, &attr_idx)))
     {
-        if (attr->s32 != SAI_TABLE_VHOST_ENTRY_ACTION_TO_TUNNEL)
-        {
-            MLNX_SAI_LOG_ERR("Unsupported vhost table action\n");
-            return SAI_STATUS_NOT_IMPLEMENTED;
-        }
-        else
-        {
+        if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_TUNNEL) {
             vhost_action_id = TO_TUNNEL_ID;
+        } else if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_PORT) {
+            vhost_action_id = TO_PORT_ID;
+        } else {
+            MLNX_SAI_LOG_ERR("Unsupported action in vhost entry\n");
+            return SAI_STATUS_NOT_IMPLEMENTED;
         }
     }
     else
@@ -268,22 +269,62 @@ sai_status_t mlnx_create_table_vhost_entry(
         return SAI_STATUS_INVALID_PARAMETER;
     }
 
-    void *vhost_keys[2];
-    void *vhost_masks[1];
-    void *vhost_params[2];
-    vhost_keys[0] =   (void *)&vnet_bitmap;
-    vhost_masks[0] =  (void *)&vnet_bitmap_mask;
-    vhost_keys[1] =   (void *)&overlay_dip;
-    vhost_params[0] = (void *)&tunnel_id;
-    vhost_params[1] = (void *)&underlay_dip;
-    printf("key 0: 0x%x, mask0: 0x%x, key 1: 0x%x, param0: 0x%x, param1: 0x%x\n", *((uint16_t *)vhost_keys[0]), *((uint16_t *)vhost_masks[0]), *((uint32_t *)vhost_keys[1]), *((uint32_t *)vhost_params[0]), *((uint32_t *)vhost_params[1]));
-    if (fx_table_entry_add(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_keys, vhost_masks, vhost_params, &vhost_offset))
+    if (SAI_STATUS_SUCCESS ==
+        (sai_status =
+             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_PORT_ID, &attr, &attr_idx)))
     {
-        MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
-        return SAI_STATUS_FAILURE;
+        if (SAI_STATUS_SUCCESS !=
+            (sai_status = mlnx_object_to_type(attr->oid, SAI_OBJECT_TYPE_PORT, &sx_log_port_id, NULL)))
+        {
+            MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id\n");
+            return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
+        }
+        // port_pbs_id = TODO: GET PBS (or create) from sx_log_port_id
     }
-    printf("vhost entry added at offset %d\n", vhost_offset);
-    mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
+    else
+    {
+        if (vhost_action_id == TO_PORT_ID) {
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory underlay dip attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+    }
+
+    if (vhost_action_id == TO_TUNNEL_ID) {
+        void *vhost_keys[2];
+        void *vhost_masks[1];
+        void *vhost_params[2];
+        vhost_keys[0] =   (void *)&vnet_bitmap;
+        vhost_masks[0] =  (void *)&vnet_bitmap_mask;
+        vhost_keys[1] =   (void *)&overlay_dip;
+        vhost_params[0] = (void *)&tunnel_id;
+        vhost_params[1] = (void *)&underlay_dip;
+        printf("key 0: 0x%x, mask0: 0x%x, key 1: 0x%x, param0: 0x%x, param1: 0x%x\n", *((uint16_t *)vhost_keys[0]), *((uint16_t *)vhost_masks[0]), *((uint32_t *)vhost_keys[1]), *((uint32_t *)vhost_params[0]), *((uint32_t *)vhost_params[1]));
+        if (fx_table_entry_add(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_keys, vhost_masks, vhost_params, &vhost_offset))
+        {
+            MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
+            return SAI_STATUS_FAILURE;
+        }
+        printf("vhost entry added at offset %d\n", vhost_offset);
+        mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
+    }
+
+    if (vhost_action_id == TO_PORT_ID) {
+        void *vhost_keys[2];
+        void *vhost_masks[1];
+        void *vhost_params[1];
+        vhost_keys[0] =   (void *)&vnet_bitmap;
+        vhost_masks[0] =  (void *)&vnet_bitmap_mask;
+        vhost_keys[1] =   (void *)&overlay_dip;
+        vhost_params[0] = (void *)&port_pbs_id;
+        printf("key 0: 0x%x, mask0: 0x%x, key 1: 0x%x, param0: 0x%x\n", *((uint16_t *)vhost_keys[0]), *((uint16_t *)vhost_masks[0]), *((uint32_t *)vhost_keys[1]), *((uint32_t *)vhost_params[0]));
+        if (fx_table_entry_add(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_keys, vhost_masks, vhost_params, &vhost_offset))
+        {
+            MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
+            return SAI_STATUS_FAILURE;
+        }
+        printf("vhost entry added at offset %d\n", vhost_offset);
+        mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
+    }
     return SAI_STATUS_SUCCESS;
 }
 

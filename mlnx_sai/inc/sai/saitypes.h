@@ -218,8 +218,8 @@ typedef enum _sai_object_type_t {
     SAI_OBJECT_TYPE_BRIDGE                   = 57,
     SAI_OBJECT_TYPE_BRIDGE_PORT              = 58,
     SAI_OBJECT_TYPE_TUNNEL_MAP_ENTRY         = 59,
-    SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY      = 60,
-    SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY        = 61,
+    SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY                = 60,
+    SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY                = 61,
     SAI_OBJECT_TYPE_MAX                      = 62,
 } sai_object_type_t;
 
