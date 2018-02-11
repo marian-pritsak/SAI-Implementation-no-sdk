@@ -163,7 +163,7 @@ sai_status_t mlnx_create_table_vhost_entry(
     uint32_t overlay_dip;
     uint32_t underlay_dip;
     uint16_t vhost_offset;
-    uint32_t port_pbs_id;
+    sx_acl_pbs_id_t port_pbs_id;
     flextrum_action_id_t vhost_action_id;
     sx_tunnel_id_t tunnel_id;
     uint32_t tunnel_idx;
@@ -241,8 +241,10 @@ sai_status_t mlnx_create_table_vhost_entry(
     }
     else
     {
-        MLNX_SAI_LOG_ERR("Didn't recieve mandatory tunnel id attribute\n");
-        return SAI_STATUS_INVALID_PARAMETER;
+        if (vhost_action_id == TO_TUNNEL_ID) {
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory tunnel id attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
     }
 
     if (SAI_STATUS_SUCCESS ==
@@ -265,8 +267,11 @@ sai_status_t mlnx_create_table_vhost_entry(
     }
     else
     {
-        MLNX_SAI_LOG_ERR("Didn't recieve mandatory underlay dip attribute\n");
-        return SAI_STATUS_INVALID_PARAMETER;
+        if (vhost_action_id == TO_TUNNEL_ID)
+        {
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory underlay dip attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
     }
 
     if (SAI_STATUS_SUCCESS ==
@@ -279,7 +284,14 @@ sai_status_t mlnx_create_table_vhost_entry(
             MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id\n");
             return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
         }
-        // port_pbs_id = TODO: GET PBS (or create) from sx_log_port_id
+        sx_acl_pbs_entry_t pbs_entry = {.entry_type = SX_ACL_PBS_ENTRY_TYPE_UNICAST, .port_num = 1, .log_ports = &sx_log_port_id};
+        sx_status_t rc;
+        rc = sx_api_acl_policy_based_switching_set(gh_sdk, SX_ACCESS_CMD_ADD, 0, &pbs_entry, &port_pbs_id);
+        if (rc)
+        {
+            MLNX_SAI_LOG_ERR("Failure in pbs creation %d\n", rc);
+            return SAI_STATUS_FAILURE;
+        }
     }
     else
     {
