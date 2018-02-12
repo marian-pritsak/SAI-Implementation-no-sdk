@@ -178,8 +178,10 @@ sai_status_t mlnx_create_table_vhost_entry(
     {
         if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_TUNNEL) {
             vhost_action_id = TO_TUNNEL_ID;
+            MLNX_SAI_LOG_NTC("vhost_actio_id %d (tunnel)\n", vhost_action_id);
         } else if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_PORT) {
             vhost_action_id = TO_PORT_ID;
+            MLNX_SAI_LOG_NTC("vhost_actio_id %d (port)\n", vhost_action_id);
         } else {
             MLNX_SAI_LOG_ERR("Unsupported action in vhost entry\n");
             return SAI_STATUS_NOT_IMPLEMENTED;
@@ -191,152 +193,157 @@ sai_status_t mlnx_create_table_vhost_entry(
         return SAI_STATUS_INVALID_PARAMETER;
     }
 
-    if (SAI_STATUS_SUCCESS ==
-        (sai_status =
-             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_PRIORITY, &attr, &attr_idx)))
-    {
-        vhost_offset = (uint16_t)attr->u32; // TODO: currently priority == offset, need to implement offset managment
-        
-    } else {
-        MLNX_SAI_LOG_ERR("priority attribute not supported yet\n");
-        return SAI_STATUS_NOT_IMPLEMENTED;
-    }
+    void *vhost_keys[2];
+    void *vhost_masks[1];
+    void *vhost_params[2];
+    bool default_entry = false;
 
-    if (SAI_STATUS_SUCCESS ==
-        (sai_status =
-             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_META_REG_KEY, &attr, &attr_idx)))
+    if (vhost_action_id == TO_TUNNEL_ID)
     {
-        vnet_bitmap = attr->u16;
-    }
-    else
-    {
-        MLNX_SAI_LOG_ERR("Didn't recieve mandatory vnet bitmap key attribute\n");
-        return SAI_STATUS_INVALID_PARAMETER;
-    }
-    
-    if (SAI_STATUS_SUCCESS ==
-        (sai_status =
-             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_META_REG_MASK, &attr, &attr_idx)))
-    {
-        vnet_bitmap_mask = attr->u16;
-    }
-    else
-    {
-        MLNX_SAI_LOG_ERR("Didn't recieve mandatory vnet bitmap mask attribute\n");
-        return SAI_STATUS_INVALID_PARAMETER;
-    }   
-
-    if (SAI_STATUS_SUCCESS ==
-        (sai_status =
-             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_TUNNEL_ID, &attr, &attr_idx)))
-    {
-        if (SAI_STATUS_SUCCESS !=
-            (sai_status = mlnx_object_to_type(attr->oid, SAI_OBJECT_TYPE_TUNNEL, &tunnel_idx, NULL)))
+        MLNX_SAI_LOG_NTC("inside tunnel. TO_TUNNEL_ID = %d\n", TO_TUNNEL_ID);
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                 find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_TUNNEL_ID, &attr, &attr_idx)))
         {
-            MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id\n");
-            return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
+            if (SAI_STATUS_SUCCESS !=
+                (sai_status = mlnx_object_to_type(attr->oid, SAI_OBJECT_TYPE_TUNNEL, &tunnel_idx, NULL)))
+            {
+                MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id\n");
+                return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
+            }
+            tunnel_id = g_sai_db_ptr->tunnel_db[tunnel_idx].sx_tunnel_id;
+            printf("tunnel sai oid 0x%" PRIx64 ". tunnel mlnx oid 0x%x\n", attr->oid, (uint32_t)tunnel_id);
         }
-        tunnel_id = g_sai_db_ptr->tunnel_db[tunnel_idx].sx_tunnel_id;
-        printf("tunnel sai oid 0x%" PRIx64 ". tunnel mlnx oid 0x%x\n", attr->oid, (uint32_t) tunnel_id);
-    }
-    else
-    {
-        if (vhost_action_id == TO_TUNNEL_ID) {
+        else
+        {
             MLNX_SAI_LOG_ERR("Didn't recieve mandatory tunnel id attribute\n");
             return SAI_STATUS_INVALID_PARAMETER;
         }
-    }
 
-    if (SAI_STATUS_SUCCESS ==
-        (sai_status =
-             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_DST_IP, &attr, &attr_idx)))
-    {
-        overlay_dip = ntohl((uint32_t) attr->ipaddr.addr.ip4);
-    }
-    else
-    {
-        MLNX_SAI_LOG_ERR("Didn't recieve mandatory overlay dst ip attribute\n");
-        return SAI_STATUS_INVALID_PARAMETER;
-    }
-
-    if (SAI_STATUS_SUCCESS ==
-        (sai_status =
-             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_UNDERLAY_DIP, &attr, &attr_idx)))
-    {
-        underlay_dip = ntohl((uint32_t) attr->ipaddr.addr.ip4);
-    }
-    else
-    {
-        if (vhost_action_id == TO_TUNNEL_ID)
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                 find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_UNDERLAY_DIP, &attr, &attr_idx)))
+        {
+            underlay_dip = ntohl((uint32_t)attr->ipaddr.addr.ip4);
+        }
+        else
         {
             MLNX_SAI_LOG_ERR("Didn't recieve mandatory underlay dip attribute\n");
             return SAI_STATUS_INVALID_PARAMETER;
         }
-    }
 
-    if (SAI_STATUS_SUCCESS ==
-        (sai_status =
-             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_PORT_ID, &attr, &attr_idx)))
-    {
-        if (SAI_STATUS_SUCCESS !=
-            (sai_status = mlnx_object_to_type(attr->oid, SAI_OBJECT_TYPE_PORT, &sx_log_port_id, NULL)))
-        {
-            MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id\n");
-            return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
-        }
-        sx_acl_pbs_entry_t pbs_entry = {.entry_type = SX_ACL_PBS_ENTRY_TYPE_UNICAST, .port_num = 1, .log_ports = &sx_log_port_id};
-        sx_status_t rc;
-        rc = sx_api_acl_policy_based_switching_set(gh_sdk, SX_ACCESS_CMD_ADD, 0, &pbs_entry, &port_pbs_id);
-        if (rc)
-        {
-            MLNX_SAI_LOG_ERR("Failure in pbs creation %d\n", rc);
-            return SAI_STATUS_FAILURE;
-        }
-    }
-    else
-    {
-        if (vhost_action_id == TO_PORT_ID) {
-            MLNX_SAI_LOG_ERR("Didn't recieve mandatory underlay dip attribute\n");
-            return SAI_STATUS_INVALID_PARAMETER;
-        }
-    }
-
-    if (vhost_action_id == TO_TUNNEL_ID) {
-        void *vhost_keys[2];
-        void *vhost_masks[1];
-        void *vhost_params[2];
-        vhost_keys[0] =   (void *)&vnet_bitmap;
-        vhost_masks[0] =  (void *)&vnet_bitmap_mask;
-        vhost_keys[1] =   (void *)&overlay_dip;
         vhost_params[0] = (void *)&tunnel_id;
         vhost_params[1] = (void *)&underlay_dip;
-        printf("key 0: 0x%x, mask0: 0x%x, key 1: 0x%x, param0: 0x%x, param1: 0x%x\n", *((uint16_t *)vhost_keys[0]), *((uint16_t *)vhost_masks[0]), *((uint32_t *)vhost_keys[1]), *((uint32_t *)vhost_params[0]), *((uint32_t *)vhost_params[1]));
+    }
+
+    if (vhost_action_id == TO_PORT_ID)
+    {
+        MLNX_SAI_LOG_NTC("inside port. TO_PORT_ID = %d\n", TO_PORT_ID);
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                 find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_PORT_ID, &attr, &attr_idx)))
+        {
+            if (SAI_STATUS_SUCCESS !=
+                (sai_status = mlnx_object_to_type(attr->oid, SAI_OBJECT_TYPE_PORT, &sx_log_port_id, NULL)))
+            {
+                MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id\n");
+                return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
+            }
+            sx_acl_pbs_entry_t pbs_entry = {.entry_type = SX_ACL_PBS_ENTRY_TYPE_UNICAST, .port_num = 1, .log_ports = &sx_log_port_id};
+            sx_status_t rc;
+            rc = sx_api_acl_policy_based_switching_set(gh_sdk, SX_ACCESS_CMD_ADD, 0, &pbs_entry, &port_pbs_id);
+            if (rc)
+            {
+                MLNX_SAI_LOG_ERR("Failure in pbs creation %d\n", rc);
+                return SAI_STATUS_FAILURE;
+            }
+        }
+        else
+        {
+
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory underlay dip attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+
+        vhost_params[0] = (void *)&port_pbs_id;
+    }
+
+    if (SAI_STATUS_SUCCESS ==
+        (sai_status =
+             find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_IS_DEFAULT, &attr, &attr_idx)))
+    {
+        default_entry = attr->booldata; // TODO: currently priority == offset, need to implement offset managment
+    }
+
+    if (default_entry) {
+        vhost_offset = 255; // TODO - get table siuze from base
+        if (fx_table_entry_default_set(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_params))
+        {
+            MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
+            return SAI_STATUS_FAILURE;
+        }
+        printf("vhost to tunnel entry added at offset %d\n", vhost_offset);
+        mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
+    } else {
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_PRIORITY, &attr, &attr_idx)))
+        {
+            vhost_offset = (uint16_t)attr->u32; // TODO: currently priority == offset, need to implement offset managment
+            
+        } else {
+            MLNX_SAI_LOG_ERR("priority attribute not supported yet\n");
+            return SAI_STATUS_NOT_IMPLEMENTED;
+        }
+
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_META_REG_KEY, &attr, &attr_idx)))
+        {
+            vnet_bitmap = attr->u16;
+        }
+        else
+        {
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory vnet bitmap key attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+        
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_META_REG_MASK, &attr, &attr_idx)))
+        {
+            vnet_bitmap_mask = attr->u16;
+        }
+        else
+        {
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory vnet bitmap mask attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_DST_IP, &attr, &attr_idx)))
+        {
+            overlay_dip = ntohl((uint32_t)attr->ipaddr.addr.ip4);
+        }
+        else
+        {
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory overlay dst ip attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+
+        vhost_keys[0] = (void *)&vnet_bitmap;
+        vhost_masks[0] = (void *)&vnet_bitmap_mask;
+        vhost_keys[1] = (void *)&overlay_dip;
         if (fx_table_entry_add(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_keys, vhost_masks, vhost_params, &vhost_offset))
         {
             MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
             return SAI_STATUS_FAILURE;
         }
-        printf("vhost entry added at offset %d\n", vhost_offset);
+        printf("vhost to tunnel entry added at offset %d\n", vhost_offset);
         mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
     }
 
-    if (vhost_action_id == TO_PORT_ID) {
-        void *vhost_keys[2];
-        void *vhost_masks[1];
-        void *vhost_params[1];
-        vhost_keys[0] =   (void *)&vnet_bitmap;
-        vhost_masks[0] =  (void *)&vnet_bitmap_mask;
-        vhost_keys[1] =   (void *)&overlay_dip;
-        vhost_params[0] = (void *)&port_pbs_id;
-        printf("key 0: 0x%x, mask0: 0x%x, key 1: 0x%x, param0: 0x%x\n", *((uint16_t *)vhost_keys[0]), *((uint16_t *)vhost_masks[0]), *((uint32_t *)vhost_keys[1]), *((uint32_t *)vhost_params[0]));
-        if (fx_table_entry_add(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_keys, vhost_masks, vhost_params, &vhost_offset))
-        {
-            MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
-            return SAI_STATUS_FAILURE;
-        }
-        printf("vhost entry added at offset %d\n", vhost_offset);
-        mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
-    }
     return SAI_STATUS_SUCCESS;
 }
 
@@ -376,18 +383,23 @@ sai_status_t mlnx_get_table_vhost_entry_attribute(
     return SAI_STATUS_SUCCESS;
 }
 
-sai_status_t sai_extension_api_initialize() {    
-    sx_port_log_id_t port_list[PORT_NUM];
-    uint32_t num_of_ports = PORT_NUM;
+sai_status_t sai_ext_api_initialize(sai_object_list_t in_port_if_list) {
+    int num_of_ports = in_port_if_list.count;
+    sx_port_log_id_t *port_list = (sx_port_log_id_t *)malloc(sizeof(sx_port_log_id_t) * num_of_ports);
+    sai_status_t sai_status;
+    int i;
+    for (i = 0; i < num_of_ports; i++)
+    {
+        if (SAI_STATUS_SUCCESS !=
+            (sai_status = mlnx_object_to_type(in_port_if_list.list[i], SAI_OBJECT_TYPE_PORT, &port_list[i], NULL)))
+        {
+            MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id 0x%" PRIx64 "\n", in_port_if_list.list[i]);
+            return SAI_STATUS_INVALID_ATTR_VALUE_0;
+        }
+    }
     fx_init(&fx_handle);
     fx_extern_init(fx_handle);
-    sx_status_t rc = fx_get_bindable_port_list(fx_handle, port_list, &num_of_ports);
-    if (rc)
-    {
-        printf("Error - rc:%d\n", rc);
-        return rc;
-    }
-    rc = fx_pipe_create(fx_handle, FX_IN_PORT, (void *)port_list, num_of_ports);
+    sx_status_t rc = fx_pipe_create(fx_handle, FX_IN_PORT, (void *)port_list, num_of_ports);
     if (rc)
     {
         printf("Error - rc:%d\n", rc);
@@ -396,15 +408,18 @@ sai_status_t sai_extension_api_initialize() {
     return SAI_STATUS_SUCCESS;
 }
 
-sai_status_t sai_extension_api_uninitialize()
-{
-    sx_port_log_id_t port_list[PORT_NUM];
-    uint32_t num_of_ports = PORT_NUM;
-    sx_status_t rc = fx_get_bindable_port_list(fx_handle, port_list, &num_of_ports);
-    if (rc)
-    {
-        printf("Error - rc:%d\n", rc);
-        return rc;
+sai_status_t sai_ext_api_uninitialize(sai_object_list_t in_port_if_list) {
+    int num_of_ports = in_port_if_list.count;
+    sx_port_log_id_t *port_list = (sx_port_log_id_t*) malloc(sizeof(sx_port_log_id_t) * num_of_ports);
+    sai_status_t sai_status;
+    int i;
+    for (i=0; i<num_of_ports; i++) {
+        if (SAI_STATUS_SUCCESS !=
+            (sai_status = mlnx_object_to_type(in_port_if_list.list[i], SAI_OBJECT_TYPE_PORT, &port_list[i], NULL)))
+        {
+            MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id 0x%" PRIx64 "\n", in_port_if_list.list[i]);
+            return SAI_STATUS_INVALID_ATTR_VALUE_0;
+        }
     }
     fx_pipe_destroy(fx_handle, FX_IN_PORT, (void *) port_list, num_of_ports);
     fx_extern_deinit(fx_handle);

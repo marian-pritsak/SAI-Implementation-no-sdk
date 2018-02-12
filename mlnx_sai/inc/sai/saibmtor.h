@@ -9,8 +9,8 @@
 
 #include <saitypes.h>
 
-sai_status_t sai_ext_api_initialize();
-sai_status_t sai_ext_api_uninitialize();
+sai_status_t sai_ext_api_initialize(sai_object_list_t in_port_if_list);
+sai_status_t sai_ext_api_uninitialize(sai_object_list_t in_port_if_list);
 
 /**
  * @defgroup SAIBMTOR SAI - Extension specific API definitions
@@ -70,6 +70,15 @@ typedef enum _sai_table_peering_entry_attr_t
      * @objects SAI_OBJECT_TYPE_PORT
      */
     SAI_TABLE_PEERING_ENTRY_ATTR_SRC_PORT,
+
+    /**
+     * @brief Is default entry
+     *
+     * @type bool
+     * @flags CREATE_ONLY
+     * @default false
+     */
+    SAI_TABLE_PEERING_ENTRY_ATTR_IS_DEFAULT,
 
     /**
      * @brief Action set_vnet_bitmap parameter meta_reg
@@ -145,6 +154,15 @@ typedef enum _sai_table_vhost_entry_attr_t
      * @flags MANDATORY_ON_CREATE | CREATE_ONLY
      */
     SAI_TABLE_VHOST_ENTRY_ATTR_DST_IP,
+
+    /**
+     * @brief Is default entry
+     *
+     * @type bool
+     * @flags CREATE_ONLY
+     * @default false
+     */
+    SAI_TABLE_VHOST_ENTRY_ATTR_IS_DEFAULT,
 
     /**
      * @brief Action to_tunnel parameter tunnel_id
