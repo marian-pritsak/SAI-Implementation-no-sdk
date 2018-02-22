@@ -170,6 +170,7 @@ sai_status_t mlnx_create_table_vhost_entry(
     sai_status_t sai_status;
     uint32_t attr_idx;
     sx_port_log_id_t sx_log_port_id;
+    sx_bridge_id_t bridge_id;
     const sai_attribute_value_t *attr;
 
     if (SAI_STATUS_SUCCESS ==
@@ -195,7 +196,7 @@ sai_status_t mlnx_create_table_vhost_entry(
 
     void *vhost_keys[2];
     void *vhost_masks[1];
-    void *vhost_params[2];
+    void *vhost_params[3];
     bool default_entry = false;
 
     if (vhost_action_id == TO_TUNNEL_ID)
@@ -232,8 +233,28 @@ sai_status_t mlnx_create_table_vhost_entry(
             return SAI_STATUS_INVALID_PARAMETER;
         }
 
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status = find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_BRIDGE_ID, &attr, &attr_idx)))
+        {
+            mlnx_object_id_t mlnx_bridge_id;
+            sai_status = sai_to_mlnx_object_id(SAI_OBJECT_TYPE_BRIDGE, attr->oid, &mlnx_bridge_id);
+            if (SAI_ERR(sai_status))
+            {
+                MLNX_SAI_LOG_ERR("Failed parse bridge id %" PRIx64 "\n", attr->oid);
+            	return SAI_STATUS_INVALID_PARAMETER;
+            }
+
+            bridge_id = mlnx_bridge_id.id.bridge_id;
+        }
+        else
+        {
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory bridge id attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+
         vhost_params[0] = (void *)&tunnel_id;
         vhost_params[1] = (void *)&underlay_dip;
+        vhost_params[2] = (void *)&bridge_id;
     }
 
     if (vhost_action_id == TO_PORT_ID)

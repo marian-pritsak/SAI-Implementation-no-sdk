@@ -379,9 +379,24 @@ static sai_status_t mlnx_create_fdb_entry(_In_ const sai_fdb_entry_t* fdb_entry,
         /* log port is redundant */
         port_id = 0;
     } else if (SAI_ERR(ip_status)) {
-        status = mlnx_bridge_port_sai_to_log_port(port->oid, &port_id);
+        mlnx_bridge_port_t *mlnx_port;
+        sai_db_read_lock();
+        status = mlnx_bridge_port_by_oid(port->oid, &mlnx_port);
         if (SAI_ERR(status)) {
-            goto out;
+            SX_LOG_ERR("Failed to lookup bridge port by oid %" PRIx64 "\n", port->oid);
+            sai_db_unlock();
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+        sai_db_unlock();
+        if (mlnx_port->port_type == SAI_BRIDGE_PORT_TYPE_1D_ROUTER) {
+            mac_entry.action = SX_FDB_ACTION_FORWARD_TO_ROUTER;
+            port_id = 0; //redundant
+            SX_LOG_NTC("mac_entry.action changed to %d\n", mac_entry.action);
+        } else {
+            status = mlnx_bridge_port_sai_to_log_port(port->oid, &port_id);
+            if (SAI_ERR(status)) {
+                goto out;
+            }
         }
     } else {
         sai_db_read_lock();

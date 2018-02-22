@@ -165,6 +165,16 @@ typedef enum _sai_table_vhost_entry_attr_t
     SAI_TABLE_VHOST_ENTRY_ATTR_IS_DEFAULT,
 
     /**
+     * @brief Action to_tunnel parameter bridge_id
+     *
+     * @type sai_object_id_t
+     * @flags MANDATORY_ON_CREATE | CREATE_ONLY
+     * @objects SAI_OBJECT_TYPE_BRIDGE
+     * @condition SAI_TABLE_VHOST_ENTRY_ATTR_ACTION == SAI_TABLE_VHOST_ENTRY_ACTION_TO_TUNNEL
+     */
+    SAI_TABLE_VHOST_ENTRY_ATTR_BRIDGE_ID,
+
+    /**
      * @brief Action to_tunnel parameter tunnel_id
      *
      * @type sai_object_id_t
