@@ -194,6 +194,16 @@ typedef enum _sai_table_vhost_entry_attr_t
     SAI_TABLE_VHOST_ENTRY_ATTR_UNDERLAY_DIP,
 
     /**
+     * @brief Action to_router parameter vr_id
+     *
+     * @type sai_object_id_t
+     * @flags MANDATORY_ON_CREATE | CREATE_ONLY
+     * @objects SAI_OBJECT_TYPE_VIRTUAL_ROUTER
+     * @condition SAI_TABLE_VHOST_ENTRY_ATTR_ACTION == SAI_TABLE_VHOST_ENTRY_ACTION_TO_ROUTER
+     */
+    SAI_TABLE_VHOST_ENTRY_ATTR_VR_ID,
+
+    /**
      * @brief Action to_port parameter port_id
      *
      * @type sai_object_id_t
@@ -216,6 +226,16 @@ typedef enum _sai_table_vhost_entry_attr_t
 
 } sai_table_vhost_entry_attr_t;
 
+/**
+ * @brief Counter IDs in sai_get_bmtor_stats() call
+ */
+typedef enum _sai_bmtor_stat_t
+{
+    SAI_BMTOR_STAT_TABLE_PEERING_HIT_PACKETS,
+    SAI_BMTOR_STAT_TABLE_PEERING_HIT_OCTETS,
+    SAI_BMTOR_STAT_TABLE_VHOST_HIT_PACKETS,
+    SAI_BMTOR_STAT_TABLE_VHOST_HIT_OCTETS,
+} sai_bmtor_stat_t;
 /**
  * @brief Create table_peering_entry
  *
@@ -320,6 +340,36 @@ typedef sai_status_t(*sai_get_table_vhost_entry_attribute_fn)(
         _In_ uint32_t attr_count,
         _Inout_ sai_attribute_t *attr_list);
 
+/**
+ * @brief Get statistics counters.
+ *
+ * @param[in] entry_id Entry id
+ * @param[in] number_of_counters Number of counters in the array
+ * @param[in] counter_ids Specifies the array of counter ids
+ * @param[out] counters Array of resulting counter values.
+ *
+ * @return #SAI_STATUS_SUCCESS on success Failure status code on error
+ */
+typedef sai_status_t(*sai_get_bmtor_stats_fn)(
+        _In_ sai_object_id_t entry_id,
+        _In_ uint32_t number_of_counters,
+        _In_ const sai_bmtor_stat_t *counter_ids,
+        _Out_ uint64_t *counters);
+
+/**
+ * @brief Clear statistics counters.
+ *
+ * @param[in] entry_id Entry id
+ * @param[in] number_of_counters Number of counters in the array
+ * @param[in] counter_ids Specifies the array of counter ids
+ *
+ * @return #SAI_STATUS_SUCCESS on success Failure status code on error
+ */
+typedef sai_status_t(*sai_clear_bmtor_stats_fn)(
+        _In_ sai_object_id_t entry_id,
+        _In_ uint32_t number_of_counters,
+        _In_ const sai_bmtor_stat_t *counter_ids);
+
 typedef struct _sai_bmtor_api_t
 {
     sai_create_table_peering_entry_fn            create_table_peering_entry;
@@ -330,6 +380,8 @@ typedef struct _sai_bmtor_api_t
     sai_remove_table_vhost_entry_fn            remove_table_vhost_entry;
     sai_set_table_vhost_entry_attribute_fn    set_table_vhost_entry_attribute;
     sai_get_table_vhost_entry_attribute_fn    get_table_vhost_entry_attribute;
+    sai_get_bmtor_stats_fn    get_bmtor_stats;
+    sai_clear_bmtor_stats_fn    clear_bmtor_stats;
 } sai_bmtor_api_t;
 /**
  * @}

@@ -3,6 +3,8 @@
 #include <flextrum_types.h>
 
 fx_handle_t fx_handle;
+sx_acl_pbs_id_t router_pbs_id;
+bool router_pbs_created;
 
 typedef struct _mlnx_sai_ext_object_id_t {
     sai_object_type_t type;
@@ -170,6 +172,7 @@ sai_status_t mlnx_create_table_vhost_entry(
     sai_status_t sai_status;
     uint32_t attr_idx;
     sx_port_log_id_t sx_log_port_id;
+    sx_router_id_t vrid;
     sx_bridge_id_t bridge_id;
     const sai_attribute_value_t *attr;
 
@@ -183,6 +186,11 @@ sai_status_t mlnx_create_table_vhost_entry(
         } else if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_PORT) {
             vhost_action_id = TO_PORT_ID;
             MLNX_SAI_LOG_NTC("vhost_actio_id %d (port)\n", vhost_action_id);
+        }
+        else if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_ROUTER)
+        {
+            vhost_action_id = TO_ROUTER_ID;
+            MLNX_SAI_LOG_NTC("vhost_actio_id %d (router)\n", vhost_action_id);
         } else {
             MLNX_SAI_LOG_ERR("Unsupported action in vhost entry\n");
             return SAI_STATUS_NOT_IMPLEMENTED;
@@ -282,11 +290,49 @@ sai_status_t mlnx_create_table_vhost_entry(
         else
         {
 
-            MLNX_SAI_LOG_ERR("Didn't recieve mandatory underlay dip attribute\n");
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory port id attribute\n");
             return SAI_STATUS_INVALID_PARAMETER;
         }
 
         vhost_params[0] = (void *)&port_pbs_id;
+    }
+
+    if (vhost_action_id == TO_ROUTER_ID)
+    {
+        uint32_t data;
+        MLNX_SAI_LOG_NTC("inside router. TO_ROUTER_ID = %d\n", TO_ROUTER_ID);
+        if (SAI_STATUS_SUCCESS ==
+            (sai_status =
+                 find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_VR_ID, &attr, &attr_idx)))
+        {
+            if (SAI_STATUS_SUCCESS !=
+                (sai_status = mlnx_object_to_type(attr->oid, SAI_OBJECT_TYPE_VIRTUAL_ROUTER, &data, NULL)))
+            {
+                MLNX_SAI_LOG_ERR("Fail to get vr id from sai_object_id\n");
+                return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
+            }
+            vrid = (sx_router_id_t) data;
+            if (router_pbs_created == false) {
+                sx_acl_pbs_entry_t pbs_entry = {.entry_type = SX_ACL_PBS_ENTRY_TYPE_ROUTING, .port_num = 0, .log_ports = NULL};
+                sx_status_t rc;
+                rc = sx_api_acl_policy_based_switching_set(gh_sdk, SX_ACCESS_CMD_ADD, 0, &pbs_entry, &router_pbs_id);
+                if (rc)
+                {
+                    MLNX_SAI_LOG_ERR("Failure in pbs creation %d. of vrid %d\n", rc, vrid);
+                    return SAI_STATUS_FAILURE;
+                }
+                MLNX_SAI_LOG_NTC("Router PBS createdd\n");
+                router_pbs_created = true;
+            }
+        }
+        else
+        {
+
+            MLNX_SAI_LOG_ERR("Didn't recieve mandatory router id attribute\n");
+            return SAI_STATUS_INVALID_PARAMETER;
+        }
+
+        vhost_params[0] = (void *)&router_pbs_id;
     }
 
     if (SAI_STATUS_SUCCESS ==
@@ -404,6 +450,95 @@ sai_status_t mlnx_get_table_vhost_entry_attribute(
     return SAI_STATUS_SUCCESS;
 }
 
+sai_status_t mlnx_get_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_counters, const sai_bmtor_stat_t *counter_ids, uint64_t *counters) {
+    printf("mlnx_get_bmtor_stats\n");
+    sai_status_t status;
+    uint32_t offset;
+    sai_object_type_t object_type = SAI_OBJECT_TYPE_NULL;
+    flextrum_table_id_t table_id = TABLE_PEERING_ID;
+    uint32_t i;
+    for (i = 0; i < number_of_counters; i++) {
+        if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_OCTETS)) {
+            if (object_type == SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY) {
+                MLNX_SAI_LOG_ERR("Got mixed counters of different objects.");
+                return SAI_STATUS_INVALID_PARAMETER;
+            }
+            object_type = SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY;
+            table_id = TABLE_PEERING_ID;
+        }
+        if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_OCTETS)) {
+            if (object_type == SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY) {
+                MLNX_SAI_LOG_ERR("Got mixed counters of different objects.");
+                return SAI_STATUS_INVALID_PARAMETER;
+            }
+            object_type = SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY;
+            table_id = TABLE_VHOST_ID;
+        }
+    }
+    if (SAI_STATUS_SUCCESS != (status = sai_ext_oid_to_mlnx_offset(entry_id, &offset, object_type)))
+    {
+        MLNX_SAI_LOG_ERR("Failure in extracting offest from entry object id 0x%" PRIx64 "\n", entry_id);
+        return status;
+    }
+    uint64_t bytes;
+    uint64_t packets;
+    sx_status_t rc = fx_table_rule_counter_read(fx_handle, table_id, offset, &bytes, &packets);
+    if (rc != SX_STATUS_SUCCESS) {
+        MLNX_SAI_LOG_ERR("Failure in reading counters from entry object id 0x%" PRIx64 " (offset %d) \n", entry_id, offset);
+        return status;
+    }
+
+    for (i = 0; i < number_of_counters; i++) {
+        if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_PACKETS)) {
+            counters[i] = packets;
+        }
+        if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_OCTETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_OCTETS)) {
+            counters[i] = bytes;
+        }
+    }
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t mlnx_clear_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_counters, const sai_bmtor_stat_t *counter_ids) {
+    printf("mlnx_clear_bmtor_stats\n");
+    sai_status_t status;
+    uint32_t offset;
+    sai_object_type_t object_type = SAI_OBJECT_TYPE_NULL;
+    flextrum_table_id_t table_id = TABLE_PEERING_ID;
+    uint32_t i;
+    for (i = 0; i < number_of_counters; i++) {
+        if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_OCTETS)) {
+            if (object_type == SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY) {
+                MLNX_SAI_LOG_ERR("Got mixed counters of different objects.");
+                return SAI_STATUS_INVALID_PARAMETER;
+            }
+            object_type = SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY;
+            table_id = TABLE_PEERING_ID;
+        }
+        if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_OCTETS)) {
+            if (object_type == SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY) {
+                MLNX_SAI_LOG_ERR("Got mixed counters of different objects.");
+                return SAI_STATUS_INVALID_PARAMETER;
+            }
+            object_type = SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY;
+            table_id = TABLE_VHOST_ID;
+        }
+    }
+    if (SAI_STATUS_SUCCESS != (status = sai_ext_oid_to_mlnx_offset(entry_id, &offset, object_type)))
+    {
+        MLNX_SAI_LOG_ERR("Failure in extracting offest from entry object id 0x%" PRIx64 "\n", entry_id);
+        return status;
+    }
+
+    sx_status_t rc = fx_table_rule_counter_clear(fx_handle, table_id, offset);
+    if (rc != SX_STATUS_SUCCESS) {
+        MLNX_SAI_LOG_ERR("Failure in clearing counters from entry object id 0x%" PRIx64 " (offset %d) \n", entry_id, offset);
+        return status;
+    }
+
+    return SAI_STATUS_SUCCESS;
+}
+
 sai_status_t sai_ext_api_initialize(sai_object_list_t in_port_if_list) {
     int num_of_ports = in_port_if_list.count;
     sx_port_log_id_t *port_list = (sx_port_log_id_t *)malloc(sizeof(sx_port_log_id_t) * num_of_ports);
@@ -457,4 +592,6 @@ const sai_bmtor_api_t mlnx_bmtor_api = {
     mlnx_remove_table_vhost_entry,
     mlnx_set_table_vhost_entry_attribute,
     mlnx_get_table_vhost_entry_attribute,
+    mlnx_get_bmtor_stats,
+    mlnx_clear_bmtor_stats
 };
