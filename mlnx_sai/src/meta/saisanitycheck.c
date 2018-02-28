@@ -2948,6 +2948,8 @@ void check_api_names()
     CHECK_API(hostif, hostif_table_entry, SAI_OBJECT_TYPE_HOSTIF_TABLE_ENTRY);
     CHECK_API(vlan, vlan, SAI_OBJECT_TYPE_VLAN);
     CHECK_API(vlan, vlan_member, SAI_OBJECT_TYPE_VLAN_MEMBER);
+    CHECK_API(bmtor, table_peering_entry, SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY);
+    CHECK_API(bmtor, table_vhost_entry, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
 
     /*
      * hostif packet is special since its not a real object but represents

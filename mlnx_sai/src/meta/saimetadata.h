@@ -22,6 +22,7 @@ extern const sai_enum_metadata_t sai_metadata_enum_sai_api_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_attr_condition_type_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_attr_flags_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_attr_value_type_t;
+extern const sai_enum_metadata_t sai_metadata_enum_sai_bmtor_stat_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_bridge_attr_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_bridge_port_attr_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_bridge_port_fdb_learning_mode_t;
@@ -128,6 +129,10 @@ extern const sai_enum_metadata_t sai_metadata_enum_sai_switch_mcast_snooping_cap
 extern const sai_enum_metadata_t sai_metadata_enum_sai_switch_oper_status_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_switch_restart_type_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_switch_switching_mode_t;
+extern const sai_enum_metadata_t sai_metadata_enum_sai_table_peering_entry_action_t;
+extern const sai_enum_metadata_t sai_metadata_enum_sai_table_peering_entry_attr_t;
+extern const sai_enum_metadata_t sai_metadata_enum_sai_table_vhost_entry_action_t;
+extern const sai_enum_metadata_t sai_metadata_enum_sai_table_vhost_entry_attr_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_tunnel_attr_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_tunnel_decap_ecn_mode_t;
 extern const sai_enum_metadata_t sai_metadata_enum_sai_tunnel_dscp_mode_t;
@@ -179,6 +184,8 @@ extern const char* sai_metadata_get_attr_flags_name(
         _In_ sai_attr_flags_t value);
 extern const char* sai_metadata_get_attr_value_type_name(
         _In_ sai_attr_value_type_t value);
+extern const char* sai_metadata_get_bmtor_stat_name(
+        _In_ sai_bmtor_stat_t value);
 extern const char* sai_metadata_get_bridge_port_fdb_learning_mode_name(
         _In_ sai_bridge_port_fdb_learning_mode_t value);
 extern const char* sai_metadata_get_bridge_port_type_name(
@@ -307,6 +314,10 @@ extern const char* sai_metadata_get_switch_restart_type_name(
         _In_ sai_switch_restart_type_t value);
 extern const char* sai_metadata_get_switch_switching_mode_name(
         _In_ sai_switch_switching_mode_t value);
+extern const char* sai_metadata_get_table_peering_entry_action_name(
+        _In_ sai_table_peering_entry_action_t value);
+extern const char* sai_metadata_get_table_vhost_entry_action_name(
+        _In_ sai_table_vhost_entry_action_t value);
 extern const char* sai_metadata_get_tunnel_decap_ecn_mode_name(
         _In_ sai_tunnel_decap_ecn_mode_t value);
 extern const char* sai_metadata_get_tunnel_dscp_mode_name(
@@ -332,6 +343,7 @@ extern const char* sai_metadata_get_vlan_stat_name(
 extern const char* sai_metadata_get_vlan_tagging_mode_name(
         _In_ sai_vlan_tagging_mode_t value);
 extern sai_acl_api_t *sai_metadata_sai_acl_api;
+extern sai_bmtor_api_t *sai_metadata_sai_bmtor_api;
 extern sai_bridge_api_t *sai_metadata_sai_bridge_api;
 extern sai_buffer_api_t *sai_metadata_sai_buffer_api;
 extern sai_fdb_api_t *sai_metadata_sai_fdb_api;
@@ -428,6 +440,8 @@ extern const sai_object_type_info_t sai_metadata_object_type_info_SAI_OBJECT_TYP
 extern const sai_object_type_info_t sai_metadata_object_type_info_SAI_OBJECT_TYPE_BRIDGE;
 extern const sai_object_type_info_t sai_metadata_object_type_info_SAI_OBJECT_TYPE_BRIDGE_PORT;
 extern const sai_object_type_info_t sai_metadata_object_type_info_SAI_OBJECT_TYPE_TUNNEL_MAP_ENTRY;
+extern const sai_object_type_info_t sai_metadata_object_type_info_SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY;
+extern const sai_object_type_info_t sai_metadata_object_type_info_SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY;
 extern const sai_object_type_info_t* sai_metadata_all_object_type_infos[];
 extern const sai_attr_metadata_t* sai_metadata_attr_sorted_by_id_name[];
 extern const size_t sai_metadata_attr_sorted_by_id_name_count;
