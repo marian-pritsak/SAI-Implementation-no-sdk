@@ -28990,39 +28990,14 @@ const char* sai_metadata_get_vlan_tagging_mode_name(
 {
     return sai_metadata_get_enum_value_name(&sai_metadata_enum_sai_vlan_tagging_mode_t, value);
 }
-const sai_object_type_t sai_metadata_struct_member_sai_fdb_entry_t_bridge_id_allowed_objects[] = {
-    SAI_OBJECT_TYPE_BRIDGE,
-};
-sai_object_id_t sai_metadata_struct_member_get_sai_fdb_entry_t_bridge_id(
-        _In_ const sai_object_meta_key_t *object_meta_key)
-{
-    return object_meta_key->objectkey.key.fdb_entry.bridge_id;
-}
-void sai_metadata_struct_member_set_sai_fdb_entry_t_bridge_id(
-        _Inout_ sai_object_meta_key_t *object_meta_key,
-        _In_ sai_object_id_t oid)
-{
-    object_meta_key->objectkey.key.fdb_entry.bridge_id = oid;
-}
-const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_bridge_id = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_OBJECT_ID,
-    .membername                = "bridge_id",
-    .isvlan                    = false,
-    .allowedobjecttypes        = sai_metadata_struct_member_sai_fdb_entry_t_bridge_id_allowed_objects,
-    .allowedobjecttypeslength  = 1,
-    .isenum                    = false,
-    .enummetadata              = NULL,
-    .getoid                    = sai_metadata_struct_member_get_sai_fdb_entry_t_bridge_id,
-    .setoid                    = sai_metadata_struct_member_set_sai_fdb_entry_t_bridge_id,
-};
-const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_bridge_type = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_INT32,
-    .membername                = "bridge_type",
+const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_mac_address = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_MAC,
+    .membername                = "mac_address",
     .isvlan                    = false,
     .allowedobjecttypes        = NULL,
     .allowedobjecttypeslength  = 0,
-    .isenum                    = true,
-    .enummetadata              = &sai_metadata_enum_sai_fdb_entry_bridge_type_t,
+    .isenum                    = false,
+    .enummetadata              = NULL,
     .getoid                    = NULL,
     .setoid                    = NULL,
 };
@@ -29051,16 +29026,41 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_switch
     .getoid                    = sai_metadata_struct_member_get_sai_fdb_entry_t_switch_id,
     .setoid                    = sai_metadata_struct_member_set_sai_fdb_entry_t_switch_id,
 };
-const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_mac_address = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_MAC,
-    .membername                = "mac_address",
+const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_bridge_type = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_INT32,
+    .membername                = "bridge_type",
     .isvlan                    = false,
     .allowedobjecttypes        = NULL,
     .allowedobjecttypeslength  = 0,
-    .isenum                    = false,
-    .enummetadata              = NULL,
+    .isenum                    = true,
+    .enummetadata              = &sai_metadata_enum_sai_fdb_entry_bridge_type_t,
     .getoid                    = NULL,
     .setoid                    = NULL,
+};
+const sai_object_type_t sai_metadata_struct_member_sai_fdb_entry_t_bridge_id_allowed_objects[] = {
+    SAI_OBJECT_TYPE_BRIDGE,
+};
+sai_object_id_t sai_metadata_struct_member_get_sai_fdb_entry_t_bridge_id(
+        _In_ const sai_object_meta_key_t *object_meta_key)
+{
+    return object_meta_key->objectkey.key.fdb_entry.bridge_id;
+}
+void sai_metadata_struct_member_set_sai_fdb_entry_t_bridge_id(
+        _Inout_ sai_object_meta_key_t *object_meta_key,
+        _In_ sai_object_id_t oid)
+{
+    object_meta_key->objectkey.key.fdb_entry.bridge_id = oid;
+}
+const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_bridge_id = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_OBJECT_ID,
+    .membername                = "bridge_id",
+    .isvlan                    = false,
+    .allowedobjecttypes        = sai_metadata_struct_member_sai_fdb_entry_t_bridge_id_allowed_objects,
+    .allowedobjecttypeslength  = 1,
+    .isenum                    = false,
+    .enummetadata              = NULL,
+    .getoid                    = sai_metadata_struct_member_get_sai_fdb_entry_t_bridge_id,
+    .setoid                    = sai_metadata_struct_member_set_sai_fdb_entry_t_bridge_id,
 };
 const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_vlan_id = {
     .membervaluetype           = SAI_ATTR_VALUE_TYPE_UINT16,
@@ -29074,10 +29074,10 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_fdb_entry_t_vlan_i
     .setoid                    = NULL,
 };
 const sai_struct_member_info_t* sai_metadata_struct_members_sai_fdb_entry_t[] = {
-    &sai_metadata_struct_member_sai_fdb_entry_t_bridge_id,
-    &sai_metadata_struct_member_sai_fdb_entry_t_bridge_type,
-    &sai_metadata_struct_member_sai_fdb_entry_t_switch_id,
     &sai_metadata_struct_member_sai_fdb_entry_t_mac_address,
+    &sai_metadata_struct_member_sai_fdb_entry_t_switch_id,
+    &sai_metadata_struct_member_sai_fdb_entry_t_bridge_type,
+    &sai_metadata_struct_member_sai_fdb_entry_t_bridge_id,
     &sai_metadata_struct_member_sai_fdb_entry_t_vlan_id,
     NULL
 };
@@ -29106,17 +29106,6 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_neighbor_entry_t_s
     .getoid                    = sai_metadata_struct_member_get_sai_neighbor_entry_t_switch_id,
     .setoid                    = sai_metadata_struct_member_set_sai_neighbor_entry_t_switch_id,
 };
-const sai_struct_member_info_t sai_metadata_struct_member_sai_neighbor_entry_t_ip_address = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
-    .membername                = "ip_address",
-    .isvlan                    = false,
-    .allowedobjecttypes        = NULL,
-    .allowedobjecttypeslength  = 0,
-    .isenum                    = false,
-    .enummetadata              = NULL,
-    .getoid                    = NULL,
-    .setoid                    = NULL,
-};
 const sai_object_type_t sai_metadata_struct_member_sai_neighbor_entry_t_rif_id_allowed_objects[] = {
     SAI_OBJECT_TYPE_ROUTER_INTERFACE,
 };
@@ -29142,10 +29131,21 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_neighbor_entry_t_r
     .getoid                    = sai_metadata_struct_member_get_sai_neighbor_entry_t_rif_id,
     .setoid                    = sai_metadata_struct_member_set_sai_neighbor_entry_t_rif_id,
 };
+const sai_struct_member_info_t sai_metadata_struct_member_sai_neighbor_entry_t_ip_address = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
+    .membername                = "ip_address",
+    .isvlan                    = false,
+    .allowedobjecttypes        = NULL,
+    .allowedobjecttypeslength  = 0,
+    .isenum                    = false,
+    .enummetadata              = NULL,
+    .getoid                    = NULL,
+    .setoid                    = NULL,
+};
 const sai_struct_member_info_t* sai_metadata_struct_members_sai_neighbor_entry_t[] = {
     &sai_metadata_struct_member_sai_neighbor_entry_t_switch_id,
-    &sai_metadata_struct_member_sai_neighbor_entry_t_ip_address,
     &sai_metadata_struct_member_sai_neighbor_entry_t_rif_id,
+    &sai_metadata_struct_member_sai_neighbor_entry_t_ip_address,
     NULL
 };
 const sai_struct_member_info_t sai_metadata_struct_member_sai_route_entry_t_destination = {
@@ -29158,31 +29158,6 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_route_entry_t_dest
     .enummetadata              = NULL,
     .getoid                    = NULL,
     .setoid                    = NULL,
-};
-const sai_object_type_t sai_metadata_struct_member_sai_route_entry_t_vr_id_allowed_objects[] = {
-    SAI_OBJECT_TYPE_VIRTUAL_ROUTER,
-};
-sai_object_id_t sai_metadata_struct_member_get_sai_route_entry_t_vr_id(
-        _In_ const sai_object_meta_key_t *object_meta_key)
-{
-    return object_meta_key->objectkey.key.route_entry.vr_id;
-}
-void sai_metadata_struct_member_set_sai_route_entry_t_vr_id(
-        _Inout_ sai_object_meta_key_t *object_meta_key,
-        _In_ sai_object_id_t oid)
-{
-    object_meta_key->objectkey.key.route_entry.vr_id = oid;
-}
-const sai_struct_member_info_t sai_metadata_struct_member_sai_route_entry_t_vr_id = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_OBJECT_ID,
-    .membername                = "vr_id",
-    .isvlan                    = false,
-    .allowedobjecttypes        = sai_metadata_struct_member_sai_route_entry_t_vr_id_allowed_objects,
-    .allowedobjecttypeslength  = 1,
-    .isenum                    = false,
-    .enummetadata              = NULL,
-    .getoid                    = sai_metadata_struct_member_get_sai_route_entry_t_vr_id,
-    .setoid                    = sai_metadata_struct_member_set_sai_route_entry_t_vr_id,
 };
 const sai_object_type_t sai_metadata_struct_member_sai_route_entry_t_switch_id_allowed_objects[] = {
     SAI_OBJECT_TYPE_SWITCH,
@@ -29209,10 +29184,35 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_route_entry_t_swit
     .getoid                    = sai_metadata_struct_member_get_sai_route_entry_t_switch_id,
     .setoid                    = sai_metadata_struct_member_set_sai_route_entry_t_switch_id,
 };
+const sai_object_type_t sai_metadata_struct_member_sai_route_entry_t_vr_id_allowed_objects[] = {
+    SAI_OBJECT_TYPE_VIRTUAL_ROUTER,
+};
+sai_object_id_t sai_metadata_struct_member_get_sai_route_entry_t_vr_id(
+        _In_ const sai_object_meta_key_t *object_meta_key)
+{
+    return object_meta_key->objectkey.key.route_entry.vr_id;
+}
+void sai_metadata_struct_member_set_sai_route_entry_t_vr_id(
+        _Inout_ sai_object_meta_key_t *object_meta_key,
+        _In_ sai_object_id_t oid)
+{
+    object_meta_key->objectkey.key.route_entry.vr_id = oid;
+}
+const sai_struct_member_info_t sai_metadata_struct_member_sai_route_entry_t_vr_id = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_OBJECT_ID,
+    .membername                = "vr_id",
+    .isvlan                    = false,
+    .allowedobjecttypes        = sai_metadata_struct_member_sai_route_entry_t_vr_id_allowed_objects,
+    .allowedobjecttypeslength  = 1,
+    .isenum                    = false,
+    .enummetadata              = NULL,
+    .getoid                    = sai_metadata_struct_member_get_sai_route_entry_t_vr_id,
+    .setoid                    = sai_metadata_struct_member_set_sai_route_entry_t_vr_id,
+};
 const sai_struct_member_info_t* sai_metadata_struct_members_sai_route_entry_t[] = {
     &sai_metadata_struct_member_sai_route_entry_t_destination,
-    &sai_metadata_struct_member_sai_route_entry_t_vr_id,
     &sai_metadata_struct_member_sai_route_entry_t_switch_id,
+    &sai_metadata_struct_member_sai_route_entry_t_vr_id,
     NULL
 };
 const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_bridge_type = {
@@ -29223,17 +29223,6 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_bridg
     .allowedobjecttypeslength  = 0,
     .isenum                    = true,
     .enummetadata              = &sai_metadata_enum_sai_fdb_entry_bridge_type_t,
-    .getoid                    = NULL,
-    .setoid                    = NULL,
-};
-const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_destination = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
-    .membername                = "destination",
-    .isvlan                    = false,
-    .allowedobjecttypes        = NULL,
-    .allowedobjecttypeslength  = 0,
-    .isenum                    = false,
-    .enummetadata              = NULL,
     .getoid                    = NULL,
     .setoid                    = NULL,
 };
@@ -29262,14 +29251,14 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_bridg
     .getoid                    = sai_metadata_struct_member_get_sai_l2mc_entry_t_bridge_id,
     .setoid                    = sai_metadata_struct_member_set_sai_l2mc_entry_t_bridge_id,
 };
-const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_type = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_INT32,
-    .membername                = "type",
+const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_source = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
+    .membername                = "source",
     .isvlan                    = false,
     .allowedobjecttypes        = NULL,
     .allowedobjecttypeslength  = 0,
-    .isenum                    = true,
-    .enummetadata              = &sai_metadata_enum_sai_l2mc_entry_type_t,
+    .isenum                    = false,
+    .enummetadata              = NULL,
     .getoid                    = NULL,
     .setoid                    = NULL,
 };
@@ -29298,9 +29287,20 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_switc
     .getoid                    = sai_metadata_struct_member_get_sai_l2mc_entry_t_switch_id,
     .setoid                    = sai_metadata_struct_member_set_sai_l2mc_entry_t_switch_id,
 };
-const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_source = {
+const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_type = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_INT32,
+    .membername                = "type",
+    .isvlan                    = false,
+    .allowedobjecttypes        = NULL,
+    .allowedobjecttypeslength  = 0,
+    .isenum                    = true,
+    .enummetadata              = &sai_metadata_enum_sai_l2mc_entry_type_t,
+    .getoid                    = NULL,
+    .setoid                    = NULL,
+};
+const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_destination = {
     .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
-    .membername                = "source",
+    .membername                = "destination",
     .isvlan                    = false,
     .allowedobjecttypes        = NULL,
     .allowedobjecttypeslength  = 0,
@@ -29322,13 +29322,60 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_l2mc_entry_t_vlan_
 };
 const sai_struct_member_info_t* sai_metadata_struct_members_sai_l2mc_entry_t[] = {
     &sai_metadata_struct_member_sai_l2mc_entry_t_bridge_type,
-    &sai_metadata_struct_member_sai_l2mc_entry_t_destination,
     &sai_metadata_struct_member_sai_l2mc_entry_t_bridge_id,
-    &sai_metadata_struct_member_sai_l2mc_entry_t_type,
-    &sai_metadata_struct_member_sai_l2mc_entry_t_switch_id,
     &sai_metadata_struct_member_sai_l2mc_entry_t_source,
+    &sai_metadata_struct_member_sai_l2mc_entry_t_switch_id,
+    &sai_metadata_struct_member_sai_l2mc_entry_t_type,
+    &sai_metadata_struct_member_sai_l2mc_entry_t_destination,
     &sai_metadata_struct_member_sai_l2mc_entry_t_vlan_id,
     NULL
+};
+const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_type = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_INT32,
+    .membername                = "type",
+    .isvlan                    = false,
+    .allowedobjecttypes        = NULL,
+    .allowedobjecttypeslength  = 0,
+    .isenum                    = true,
+    .enummetadata              = &sai_metadata_enum_sai_ipmc_entry_type_t,
+    .getoid                    = NULL,
+    .setoid                    = NULL,
+};
+const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_destination = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
+    .membername                = "destination",
+    .isvlan                    = false,
+    .allowedobjecttypes        = NULL,
+    .allowedobjecttypeslength  = 0,
+    .isenum                    = false,
+    .enummetadata              = NULL,
+    .getoid                    = NULL,
+    .setoid                    = NULL,
+};
+const sai_object_type_t sai_metadata_struct_member_sai_ipmc_entry_t_vr_id_allowed_objects[] = {
+    SAI_OBJECT_TYPE_VIRTUAL_ROUTER,
+};
+sai_object_id_t sai_metadata_struct_member_get_sai_ipmc_entry_t_vr_id(
+        _In_ const sai_object_meta_key_t *object_meta_key)
+{
+    return object_meta_key->objectkey.key.ipmc_entry.vr_id;
+}
+void sai_metadata_struct_member_set_sai_ipmc_entry_t_vr_id(
+        _Inout_ sai_object_meta_key_t *object_meta_key,
+        _In_ sai_object_id_t oid)
+{
+    object_meta_key->objectkey.key.ipmc_entry.vr_id = oid;
+}
+const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_vr_id = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_OBJECT_ID,
+    .membername                = "vr_id",
+    .isvlan                    = false,
+    .allowedobjecttypes        = sai_metadata_struct_member_sai_ipmc_entry_t_vr_id_allowed_objects,
+    .allowedobjecttypeslength  = 1,
+    .isenum                    = false,
+    .enummetadata              = NULL,
+    .getoid                    = sai_metadata_struct_member_get_sai_ipmc_entry_t_vr_id,
+    .setoid                    = sai_metadata_struct_member_set_sai_ipmc_entry_t_vr_id,
 };
 const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_source = {
     .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
@@ -29366,76 +29413,29 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_switc
     .getoid                    = sai_metadata_struct_member_get_sai_ipmc_entry_t_switch_id,
     .setoid                    = sai_metadata_struct_member_set_sai_ipmc_entry_t_switch_id,
 };
-const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_type = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_INT32,
-    .membername                = "type",
-    .isvlan                    = false,
-    .allowedobjecttypes        = NULL,
-    .allowedobjecttypeslength  = 0,
-    .isenum                    = true,
-    .enummetadata              = &sai_metadata_enum_sai_ipmc_entry_type_t,
-    .getoid                    = NULL,
-    .setoid                    = NULL,
-};
-const sai_object_type_t sai_metadata_struct_member_sai_ipmc_entry_t_vr_id_allowed_objects[] = {
-    SAI_OBJECT_TYPE_VIRTUAL_ROUTER,
-};
-sai_object_id_t sai_metadata_struct_member_get_sai_ipmc_entry_t_vr_id(
-        _In_ const sai_object_meta_key_t *object_meta_key)
-{
-    return object_meta_key->objectkey.key.ipmc_entry.vr_id;
-}
-void sai_metadata_struct_member_set_sai_ipmc_entry_t_vr_id(
-        _Inout_ sai_object_meta_key_t *object_meta_key,
-        _In_ sai_object_id_t oid)
-{
-    object_meta_key->objectkey.key.ipmc_entry.vr_id = oid;
-}
-const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_vr_id = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_OBJECT_ID,
-    .membername                = "vr_id",
-    .isvlan                    = false,
-    .allowedobjecttypes        = sai_metadata_struct_member_sai_ipmc_entry_t_vr_id_allowed_objects,
-    .allowedobjecttypeslength  = 1,
-    .isenum                    = false,
-    .enummetadata              = NULL,
-    .getoid                    = sai_metadata_struct_member_get_sai_ipmc_entry_t_vr_id,
-    .setoid                    = sai_metadata_struct_member_set_sai_ipmc_entry_t_vr_id,
-};
-const sai_struct_member_info_t sai_metadata_struct_member_sai_ipmc_entry_t_destination = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_IP_ADDRESS,
-    .membername                = "destination",
-    .isvlan                    = false,
-    .allowedobjecttypes        = NULL,
-    .allowedobjecttypeslength  = 0,
-    .isenum                    = false,
-    .enummetadata              = NULL,
-    .getoid                    = NULL,
-    .setoid                    = NULL,
-};
 const sai_struct_member_info_t* sai_metadata_struct_members_sai_ipmc_entry_t[] = {
+    &sai_metadata_struct_member_sai_ipmc_entry_t_type,
+    &sai_metadata_struct_member_sai_ipmc_entry_t_destination,
+    &sai_metadata_struct_member_sai_ipmc_entry_t_vr_id,
     &sai_metadata_struct_member_sai_ipmc_entry_t_source,
     &sai_metadata_struct_member_sai_ipmc_entry_t_switch_id,
-    &sai_metadata_struct_member_sai_ipmc_entry_t_type,
-    &sai_metadata_struct_member_sai_ipmc_entry_t_vr_id,
-    &sai_metadata_struct_member_sai_ipmc_entry_t_destination,
     NULL
-};
-const sai_struct_member_info_t sai_metadata_struct_member_sai_mcast_fdb_entry_t_mac_address = {
-    .membervaluetype           = SAI_ATTR_VALUE_TYPE_MAC,
-    .membername                = "mac_address",
-    .isvlan                    = false,
-    .allowedobjecttypes        = NULL,
-    .allowedobjecttypeslength  = 0,
-    .isenum                    = false,
-    .enummetadata              = NULL,
-    .getoid                    = NULL,
-    .setoid                    = NULL,
 };
 const sai_struct_member_info_t sai_metadata_struct_member_sai_mcast_fdb_entry_t_vlan_id = {
     .membervaluetype           = SAI_ATTR_VALUE_TYPE_UINT16,
     .membername                = "vlan_id",
     .isvlan                    = true,
+    .allowedobjecttypes        = NULL,
+    .allowedobjecttypeslength  = 0,
+    .isenum                    = false,
+    .enummetadata              = NULL,
+    .getoid                    = NULL,
+    .setoid                    = NULL,
+};
+const sai_struct_member_info_t sai_metadata_struct_member_sai_mcast_fdb_entry_t_mac_address = {
+    .membervaluetype           = SAI_ATTR_VALUE_TYPE_MAC,
+    .membername                = "mac_address",
+    .isvlan                    = false,
     .allowedobjecttypes        = NULL,
     .allowedobjecttypeslength  = 0,
     .isenum                    = false,
@@ -29469,8 +29469,8 @@ const sai_struct_member_info_t sai_metadata_struct_member_sai_mcast_fdb_entry_t_
     .setoid                    = sai_metadata_struct_member_set_sai_mcast_fdb_entry_t_switch_id,
 };
 const sai_struct_member_info_t* sai_metadata_struct_members_sai_mcast_fdb_entry_t[] = {
-    &sai_metadata_struct_member_sai_mcast_fdb_entry_t_mac_address,
     &sai_metadata_struct_member_sai_mcast_fdb_entry_t_vlan_id,
+    &sai_metadata_struct_member_sai_mcast_fdb_entry_t_mac_address,
     &sai_metadata_struct_member_sai_mcast_fdb_entry_t_switch_id,
     NULL
 };
