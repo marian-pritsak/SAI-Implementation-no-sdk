@@ -52,6 +52,7 @@ sai_status_t mlnx_create_table_peering_entry(
     flextrum_action_id_t peer_action_id;
     sai_status_t sai_status;
     uint32_t attr_idx;
+    sai_object_id_t port_oid;
     const sai_attribute_value_t *attr;
     if (SAI_STATUS_SUCCESS ==
         (sai_status =
@@ -63,6 +64,7 @@ sai_status_t mlnx_create_table_peering_entry(
             MLNX_SAI_LOG_ERR("Fail to get sx_port id from sai_port_id\n");
             return SAI_STATUS_INVALID_ATTR_VALUE_0 + attr_idx;
         }
+        port_oid = attr->oid;
     }
     else
     {
@@ -104,6 +106,10 @@ sai_status_t mlnx_create_table_peering_entry(
 
     peering_keys[0] = (void *)&sx_log_port_id;
     peering_params[0] = (void *)&vnet_bitmap;
+    sai_object_list_t in_port_if_list;
+    in_port_if_list.count = 1;
+    in_port_if_list.list = &port_oid;
+    sai_ext_api_initialize(in_port_if_list);
     // if (add_table_entry_table_peering(peering_keys, NULL, peering_params,
     //                                       peer_action_id, &peer_offset))
     if (fx_table_entry_add(fx_handle, TABLE_PEERING_ID, peer_action_id, peering_keys, NULL, peering_params, &peer_offset))
