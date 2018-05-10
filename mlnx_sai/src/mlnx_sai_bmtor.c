@@ -43,7 +43,6 @@ sai_status_t mlnx_create_table_peering_entry(
         _In_ uint32_t attr_count,
         _In_ const sai_attribute_t *attr_list)
 {
-    printf("mlnx_create_table_peering_entry\n");
     void *peering_keys[1];
     void *peering_params[1];
     uint16_t peer_offset = 0;
@@ -119,7 +118,6 @@ sai_status_t mlnx_create_table_peering_entry(
         MLNX_SAI_LOG_ERR("Failure in insertion of table_peering entry\n");
         return SAI_STATUS_FAILURE;
     }
-    printf("peering entry added at offset %d\n", peer_offset);
     mlnx_to_sai_ext_object_id(entry_id, peer_offset, SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY);
     // TODO update sai_object_id to encode offset and type
     return SAI_STATUS_SUCCESS;
@@ -128,7 +126,6 @@ sai_status_t mlnx_create_table_peering_entry(
 sai_status_t mlnx_remove_table_peering_entry(
     _In_ sai_object_id_t entry_id)
 {
-    printf("mlnx_remove_table_peering_entry\n");
     sai_status_t status;
     uint32_t peer_offset;
     if (SAI_STATUS_SUCCESS != (status = sai_ext_oid_to_mlnx_offset(entry_id, &peer_offset, SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY)))
@@ -148,7 +145,6 @@ sai_status_t mlnx_set_table_peering_entry_attribute(
     _In_ sai_object_id_t entry_id,
     _In_ const sai_attribute_t *attr)
 {
-    printf("mlnx_set_table_peering_entry_attribute\n");
     return SAI_STATUS_SUCCESS;
 }
 
@@ -157,7 +153,6 @@ sai_status_t mlnx_get_table_peering_entry_attribute(
     _In_ uint32_t attr_count,
     _Inout_ sai_attribute_t *attr_list)
 {
-    printf("mlnx_get_table_peering_entry_attribute\n");
     return SAI_STATUS_SUCCESS;
 }
 
@@ -167,7 +162,6 @@ sai_status_t mlnx_create_table_vhost_entry(
     _In_ uint32_t attr_count,
     _In_ const sai_attribute_t *attr_list)
 {
-    printf("mlnx_create_table_vhost_entry\n");
     uint16_t vnet_bitmap;
     uint16_t vnet_bitmap_mask;
     uint32_t overlay_dip;
@@ -357,7 +351,6 @@ sai_status_t mlnx_create_table_vhost_entry(
             MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
             return SAI_STATUS_FAILURE;
         }
-        printf("vhost to tunnel entry added at offset %d\n", vhost_offset);
         mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
     } else {
         if (SAI_STATUS_SUCCESS ==
@@ -415,7 +408,6 @@ sai_status_t mlnx_create_table_vhost_entry(
             MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
             return SAI_STATUS_FAILURE;
         }
-        printf("vhost to tunnel entry added at offset %d\n", vhost_offset);
         mlnx_to_sai_ext_object_id(entry_id, vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY);
     }
 
@@ -425,7 +417,6 @@ sai_status_t mlnx_create_table_vhost_entry(
 sai_status_t mlnx_remove_table_vhost_entry(
     _In_ sai_object_id_t entry_id)
 {
-    printf("mlnx_remove_table_vhost_entry\n");
     sai_status_t status;
     uint32_t vhost_offset;
     if (SAI_STATUS_SUCCESS != (status = sai_ext_oid_to_mlnx_offset(entry_id, &vhost_offset, SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY)))
@@ -445,7 +436,6 @@ sai_status_t mlnx_set_table_vhost_entry_attribute(
     _In_ sai_object_id_t entry_id,
     _In_ const sai_attribute_t *attr)
 {
-    printf("mlnx_set_table_vhost_entry_attribute\n");
     return SAI_STATUS_SUCCESS;
 }
 
@@ -454,12 +444,10 @@ sai_status_t mlnx_get_table_vhost_entry_attribute(
     _In_ uint32_t attr_count,
     _Inout_ sai_attribute_t *attr_list)
 {
-    printf("mlnx_get_table_vhost_entry_attribute\n");
     return SAI_STATUS_SUCCESS;
 }
 
 sai_status_t mlnx_get_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_counters, const sai_bmtor_stat_t *counter_ids, uint64_t *counters) {
-    printf("mlnx_get_bmtor_stats\n");
     sai_status_t status;
     uint32_t offset;
     sai_object_type_t object_type = SAI_OBJECT_TYPE_NULL;
@@ -508,7 +496,6 @@ sai_status_t mlnx_get_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_c
 }
 
 sai_status_t mlnx_clear_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_counters, const sai_bmtor_stat_t *counter_ids) {
-    printf("mlnx_clear_bmtor_stats\n");
     sai_status_t status;
     uint32_t offset;
     sai_object_type_t object_type = SAI_OBJECT_TYPE_NULL;
