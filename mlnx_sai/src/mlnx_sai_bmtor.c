@@ -95,7 +95,7 @@ sai_status_t mlnx_create_table_peering_entry(
         }
         else
         {
-            peer_action_id = SET_VNET_BITMAP_ID;
+            peer_action_id = CONTROL_IN_PORT_SET_VNET_BITMAP_ID;
         }
     }
     else
@@ -104,6 +104,8 @@ sai_status_t mlnx_create_table_peering_entry(
         return SAI_STATUS_INVALID_PARAMETER;
     }
 
+    // TODO: remove this block - this is a workaround for ext_api initialization and binding of ports, either
+    // we bind all ports when syncd awaks, or we expose dynamic binding and unbinding
     peering_keys[0] = (void *)&sx_log_port_id;
     peering_params[0] = (void *)&vnet_bitmap;
     sai_object_list_t in_port_if_list;
@@ -112,7 +114,7 @@ sai_status_t mlnx_create_table_peering_entry(
     sai_ext_api_initialize(in_port_if_list);
     // if (add_table_entry_table_peering(peering_keys, NULL, peering_params,
     //                                       peer_action_id, &peer_offset))
-    if (fx_table_entry_add(fx_handle, TABLE_PEERING_ID, peer_action_id, peering_keys, NULL, peering_params, &peer_offset))
+    if (fx_table_entry_add(fx_handle, CONTROL_IN_PORT_TABLE_PEERING_ID, peer_action_id, peering_keys, NULL, peering_params, &peer_offset))
     {
         MLNX_SAI_LOG_ERR("Failure in insertion of table_peering entry\n");
         return SAI_STATUS_FAILURE;
@@ -134,7 +136,7 @@ sai_status_t mlnx_remove_table_peering_entry(
         MLNX_SAI_LOG_ERR("Failure in extracting offest from peering entry object id 0x%" PRIx64 "\n", entry_id);
         return status;
     }
-    if (fx_table_entry_remove(fx_handle, TABLE_PEERING_ID, peer_offset))
+    if (fx_table_entry_remove(fx_handle, CONTROL_IN_PORT_TABLE_PEERING_ID, peer_offset))
     {
         MLNX_SAI_LOG_ERR("Failure in removal of table_peering entry at offset %d\n", peer_offset);
         return SAI_STATUS_FAILURE;
@@ -187,15 +189,15 @@ sai_status_t mlnx_create_table_vhost_entry(
              find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_ACTION, &attr, &attr_idx)))
     {
         if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_TUNNEL) {
-            vhost_action_id = TO_TUNNEL_ID;
+            vhost_action_id = CONTROL_IN_PORT_TO_TUNNEL_ID;
             MLNX_SAI_LOG_NTC("vhost_actio_id %d (tunnel)\n", vhost_action_id);
         } else if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_PORT) {
-            vhost_action_id = TO_PORT_ID;
+            vhost_action_id = CONTROL_IN_PORT_TO_PORT_ID;
             MLNX_SAI_LOG_NTC("vhost_actio_id %d (port)\n", vhost_action_id);
         }
         else if (attr->s32 == SAI_TABLE_VHOST_ENTRY_ACTION_TO_ROUTER)
         {
-            vhost_action_id = TO_ROUTER_ID;
+            vhost_action_id = CONTROL_IN_PORT_TO_ROUTER_ID;
             MLNX_SAI_LOG_NTC("vhost_actio_id %d (router)\n", vhost_action_id);
         } else {
             MLNX_SAI_LOG_ERR("Unsupported action in vhost entry\n");
@@ -213,9 +215,9 @@ sai_status_t mlnx_create_table_vhost_entry(
     void *vhost_params[3];
     bool default_entry = false;
 
-    if (vhost_action_id == TO_TUNNEL_ID)
+    if (vhost_action_id == CONTROL_IN_PORT_TO_TUNNEL_ID)
     {
-        MLNX_SAI_LOG_NTC("inside tunnel. TO_TUNNEL_ID = %d\n", TO_TUNNEL_ID);
+        MLNX_SAI_LOG_NTC("inside tunnel. CONTROL_IN_PORT_TO_TUNNEL_ID = %d\n", CONTROL_IN_PORT_TO_TUNNEL_ID);
         if (SAI_STATUS_SUCCESS ==
             (sai_status =
                  find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_TUNNEL_ID, &attr, &attr_idx)))
@@ -271,9 +273,9 @@ sai_status_t mlnx_create_table_vhost_entry(
         vhost_params[2] = (void *)&bridge_id;
     }
 
-    if (vhost_action_id == TO_PORT_ID)
+    if (vhost_action_id == CONTROL_IN_PORT_TO_PORT_ID)
     {
-        MLNX_SAI_LOG_NTC("inside port. TO_PORT_ID = %d\n", TO_PORT_ID);
+        MLNX_SAI_LOG_NTC("inside port. CONTROL_IN_PORT_TO_PORT_ID = %d\n", CONTROL_IN_PORT_TO_PORT_ID);
         if (SAI_STATUS_SUCCESS ==
             (sai_status =
                  find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_PORT_ID, &attr, &attr_idx)))
@@ -303,10 +305,10 @@ sai_status_t mlnx_create_table_vhost_entry(
         vhost_params[0] = (void *)&port_pbs_id;
     }
 
-    if (vhost_action_id == TO_ROUTER_ID)
+    if (vhost_action_id == CONTROL_IN_PORT_TO_ROUTER_ID)
     {
         uint32_t data;
-        MLNX_SAI_LOG_NTC("inside router. TO_ROUTER_ID = %d\n", TO_ROUTER_ID);
+        MLNX_SAI_LOG_NTC("inside router. CONTROL_IN_PORT_TO_ROUTER_ID = %d\n", CONTROL_IN_PORT_TO_ROUTER_ID);
         if (SAI_STATUS_SUCCESS ==
             (sai_status =
                  find_attrib_in_list(attr_count, attr_list, SAI_TABLE_VHOST_ENTRY_ATTR_VR_ID, &attr, &attr_idx)))
@@ -350,7 +352,7 @@ sai_status_t mlnx_create_table_vhost_entry(
 
     if (default_entry) {
         vhost_offset = 255; // TODO - get table siuze from base
-        if (fx_table_entry_default_set(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_params))
+        if (fx_table_entry_default_set(fx_handle, CONTROL_IN_PORT_TABLE_VHOST_ID, vhost_action_id, vhost_params))
         {
             MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
             return SAI_STATUS_FAILURE;
@@ -408,7 +410,7 @@ sai_status_t mlnx_create_table_vhost_entry(
         vhost_keys[0] = (void *)&vnet_bitmap;
         vhost_masks[0] = (void *)&vnet_bitmap_mask;
         vhost_keys[1] = (void *)&overlay_dip;
-        if (fx_table_entry_add(fx_handle, TABLE_VHOST_ID, vhost_action_id, vhost_keys, vhost_masks, vhost_params, &vhost_offset))
+        if (fx_table_entry_add(fx_handle, CONTROL_IN_PORT_TABLE_VHOST_ID, vhost_action_id, vhost_keys, vhost_masks, vhost_params, &vhost_offset))
         {
             MLNX_SAI_LOG_ERR("Failure in insertion of table_vhost entry at offset %d\n", vhost_offset);
             return SAI_STATUS_FAILURE;
@@ -431,7 +433,7 @@ sai_status_t mlnx_remove_table_vhost_entry(
         MLNX_SAI_LOG_ERR("Failure in extracting offest from vhost entry object id 0x%" PRIx64 "\n", entry_id);
         return status;
     }
-    if (fx_table_entry_remove(fx_handle, TABLE_VHOST_ID, vhost_offset))
+    if (fx_table_entry_remove(fx_handle, CONTROL_IN_PORT_TABLE_VHOST_ID, vhost_offset))
     {
         MLNX_SAI_LOG_ERR("Failure in removal of table_vhost entry at offset %d\n", vhost_offset);
         return SAI_STATUS_FAILURE;
@@ -461,7 +463,7 @@ sai_status_t mlnx_get_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_c
     sai_status_t status;
     uint32_t offset;
     sai_object_type_t object_type = SAI_OBJECT_TYPE_NULL;
-    flextrum_table_id_t table_id = TABLE_PEERING_ID;
+    flextrum_table_id_t table_id = CONTROL_IN_PORT_TABLE_PEERING_ID;
     uint32_t i;
     for (i = 0; i < number_of_counters; i++) {
         if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_OCTETS)) {
@@ -470,7 +472,7 @@ sai_status_t mlnx_get_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_c
                 return SAI_STATUS_INVALID_PARAMETER;
             }
             object_type = SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY;
-            table_id = TABLE_PEERING_ID;
+            table_id = CONTROL_IN_PORT_TABLE_PEERING_ID;
         }
         if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_OCTETS)) {
             if (object_type == SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY) {
@@ -478,7 +480,7 @@ sai_status_t mlnx_get_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of_c
                 return SAI_STATUS_INVALID_PARAMETER;
             }
             object_type = SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY;
-            table_id = TABLE_VHOST_ID;
+            table_id = CONTROL_IN_PORT_TABLE_VHOST_ID;
         }
     }
     if (SAI_STATUS_SUCCESS != (status = sai_ext_oid_to_mlnx_offset(entry_id, &offset, object_type)))
@@ -510,7 +512,7 @@ sai_status_t mlnx_clear_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of
     sai_status_t status;
     uint32_t offset;
     sai_object_type_t object_type = SAI_OBJECT_TYPE_NULL;
-    flextrum_table_id_t table_id = TABLE_PEERING_ID;
+    flextrum_table_id_t table_id = CONTROL_IN_PORT_TABLE_PEERING_ID;
     uint32_t i;
     for (i = 0; i < number_of_counters; i++) {
         if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_PEERING_HIT_OCTETS)) {
@@ -519,7 +521,7 @@ sai_status_t mlnx_clear_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of
                 return SAI_STATUS_INVALID_PARAMETER;
             }
             object_type = SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY;
-            table_id = TABLE_PEERING_ID;
+            table_id = CONTROL_IN_PORT_TABLE_PEERING_ID;
         }
         if ((counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_PACKETS) || (counter_ids[i] == SAI_BMTOR_STAT_TABLE_VHOST_HIT_OCTETS)) {
             if (object_type == SAI_OBJECT_TYPE_TABLE_PEERING_ENTRY) {
@@ -527,7 +529,7 @@ sai_status_t mlnx_clear_bmtor_stats(sai_object_id_t entry_id, uint32_t number_of
                 return SAI_STATUS_INVALID_PARAMETER;
             }
             object_type = SAI_OBJECT_TYPE_TABLE_VHOST_ENTRY;
-            table_id = TABLE_VHOST_ID;
+            table_id = CONTROL_IN_PORT_TABLE_VHOST_ID;
         }
     }
     if (SAI_STATUS_SUCCESS != (status = sai_ext_oid_to_mlnx_offset(entry_id, &offset, object_type)))
