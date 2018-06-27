@@ -11,7 +11,8 @@ meta/saimetadata.lo: meta/saimetadata.c /usr/include/stdc-predef.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h meta/saimetadata.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h meta/saimetadata.h \
  ../inc/sai/sai.h ../inc/sai/saitypes.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
@@ -24,6 +25,7 @@ meta/saimetadata.lo: meta/saimetadata.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/sigset.h \
  /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h \
  /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h ../inc/sai/saistatus.h \
  ../inc/sai/saiacl.h ../inc/sai/saitypes.h ../inc/sai/saibuffer.h \
@@ -78,6 +80,8 @@ meta/saimetadata.lo: meta/saimetadata.c /usr/include/stdc-predef.h \
 
 /usr/include/x86_64-linux-gnu/bits/stdio.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
 meta/saimetadata.h:
 
 ../inc/sai/sai.h:
@@ -111,6 +115,8 @@ meta/saimetadata.h:
 /usr/include/x86_64-linux-gnu/bits/sigset.h:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/select2.h:
 
 /usr/include/x86_64-linux-gnu/sys/sysmacros.h:
 

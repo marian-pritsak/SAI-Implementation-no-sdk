@@ -3472,6 +3472,8 @@ static sai_status_t mlnx_create_switch(_Out_ sai_object_id_t     * switch_id,
         return sai_status;
     }
 
+    sai_ext_api_initialize();
+
     return mlnx_object_id_to_sai(SAI_OBJECT_TYPE_SWITCH, &mlnx_switch_id, switch_id);
 }
 
